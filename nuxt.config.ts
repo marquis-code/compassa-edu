@@ -9,8 +9,32 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  target: "static",
+  app: {
+    head: {
+      title: "Compassa Learn",
+      htmlAttrs: { lang: "en" },
+      meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "format-detection", content: "telephone=no" },
+      ],
+      // script: [
+      //   {
+      //     src: `https://maps.googleapis.com/maps/api/js?key=AIzaSyCTBVK36LVNlXs_qBOC4RywX_Ihf765lDg&libraries=places`, // Add your API key
+      //     async: true,
+      //     defer: true,
+      //   },
+      // ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.svg" }],
+    },
+  },
   plugins: ["~/plugins/aos.client.ts"],
-  modules: ['@kevinmarrec/nuxt-pwa'],
+  css: ['@/assets/css/main.css'],
+  tailwindcss: {
+    cssPath: "@/assets/css/main.css",
+  },
+  modules: ['@kevinmarrec/nuxt-pwa',"@nuxtjs/tailwindcss"],
   pwa: {
     workbox: {
       enabled: true
