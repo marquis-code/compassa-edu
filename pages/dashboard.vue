@@ -415,9 +415,9 @@ const handleSubmit = async () => {
   
   const navigationItems = ref([
     { name: 'Home', path: '/', icon: HomeIcon },
-    { name: 'My projects', path: '/projects', icon: DocumentIcon },
-    { name: 'Folders', path: '/folders', icon: FolderIcon },
-    { name: 'Team members', path: '/team', icon: UsersIcon },
-    { name: 'Settings', path: '/settings', icon: CogIcon },
+    { name: 'My projects', path: '/', icon: DocumentIcon },
+    { name: 'Folders', path: '/', icon: FolderIcon },
+    { name: 'Team members', path: '/', icon: UsersIcon },
+    { name: 'Settings', path: '/', icon: CogIcon },
   ])
   </script>
