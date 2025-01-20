@@ -5,10 +5,10 @@ const { showToast } = useCustomToast();
 
 const { token, logOut } = useUser();
 
-const $GATEWAY_ENDPOINT_WITHOUT_VERSION = import.meta.env
-  .VITE_BASE_URL as string;
+const $GATEWAY_ENDPOINT_WITHOUT_VERSION = import.meta.env.VITE_BASE_URL as string;
+// const $GATEWAY_UPLOAD_ENDPOINT_WITHOUT_VERSION = import.meta.env.VITE_UPLOAD_BASE_URL as string;mm
 const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL + "/api/v1";
-const $GATEWAY_ENDPOINT_V2 = import.meta.env.VITE_BASE_URL + "/v2";
+const $GATEWAY_UPLOAD_ENDPOINT = import.meta.env.VITE_UPLOAD_BASE_URL + "/v1";
 const $IMAGE_UPLOAD_ENDPOINT = import.meta.env
   .VITE_IMAGE_UPLOAD_BASE_URL as string;
 
@@ -16,14 +16,18 @@ export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
 });
 
-export const GATEWAY_ENDPOINT_V2 = axios.create({
-  baseURL: $GATEWAY_ENDPOINT_V2
-});
-
+const blackCountryToksn = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiYWhtYXJxdWlzQGdtYWlsLmNvbSIsInN1YiI6IjUxZDcxZDA4LTQ2MmMtNGViMS1hNzM5LTg2MDQzMWQzYTFlZCIsInJvbGUiOiJQUk9QRVJUWV9NQU5BR0VSIiwiaWF0IjoxNzM3MzUxNTI3LCJleHAiOjE3NzE5MTE1Mjd9.l460xVII6_QPGphkLyIO1Gr4hxyj7V68q_wZbOZFH6U'
 export const GATEWAY_ENDPOINT_WITH_AUTH = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
   headers: {
     Authorization: `Bearer ${token.value}`,
+  },
+});
+
+export const GATEWAY_UPLOAD_ENDPOINT_WITH_AUTH = axios.create({
+  baseURL: $GATEWAY_UPLOAD_ENDPOINT,
+  headers: {
+    Authorization: `Bearer ${blackCountryToksn}`,
   },
 });
 
@@ -54,7 +58,6 @@ export interface CustomAxiosResponse extends AxiosResponse {
 
 const instanceArray = [
   GATEWAY_ENDPOINT,
-  GATEWAY_ENDPOINT_V2,
   GATEWAY_ENDPOINT_WITH_AUTH,
   GATEWAY_ENDPOINT_WITHOUT_VERSION,
   GATEWAY_ENDPOINT_WITHOUT_VERSION_WITH_AUTH,

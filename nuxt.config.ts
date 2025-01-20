@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
+  target: "static",
   postcss: {
     plugins: {
       "postcss-import": {},
@@ -9,10 +10,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  target: "static",
   app: {
     head: {
-      title: "Compassa Learn",
+      title: "COMPSSA Learn",
       htmlAttrs: { lang: "en" },
       meta: [
         { charset: "utf-8" },

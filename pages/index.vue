@@ -31,8 +31,8 @@
               </span>
             </a>
           </div>
-          <h1 class="mt-10 text-pretty text-5xl font-semibold tracking-tight text-white sm:text-7xl"> Comprehensive Academic Materials Platform for Students</h1>
-          <p class="mt-8 text-pretty text-lg font-medium text-gray-400 sm:text-xl/8"> Simplify access to lecture notes, past questions, and collaborative tools. Foster teamwork, improve academic performance, and unlock your full potential with COMPASSA.</p>
+          <h1 class="mt-10 text-pretty text-5xl font-semibold tracking-tight text-white sm:text-7xl"> COMPSSAcademy</h1>
+          <p class="mt-8 text-pretty text-lg font-medium text-gray-400 sm:text-xl/8"> Simplify access to lecture notes, past questions, and collaborative tools. Foster teamwork, improve academic performance, and unlock your full potential with COMPSSA.</p>
           <div class="mt-10 flex items-center gap-x-6">
             <NuxtLink to="/signup" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Get started</NuxtLink>
             <a href="#" class="text-sm/6 font-semibold text-white">Learn more <span aria-hidden="true">→</span></a>
@@ -61,8 +61,8 @@
 
     <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
       <div class="mx-auto max-w-2xl lg:text-center">
-        <h2 class="text-base/7 font-semibold text-indigo-400">Deploy faster</h2>
-        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-balance">Why COMPASSA?</p>
+        <!-- <h2 class="text-base/7 font-semibold text-indigo-400">Deploy faster</h2> -->
+        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-balance">Why COMPSSA?</p>
         <p class="mt-6 text-lg/8 text-gray-300">Empower students with access to centralized academic resources, collaborative tools, and cutting-edge technology.</p>
       </div>
       <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -124,7 +124,7 @@
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl sm:text-center">
           <h2 class="text-base/7 font-semibold text-indigo-400">Everything you need</h2>
-          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-balance sm:text-5xl">Features That Set COMPASSA Apart</p>
+          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-balance sm:text-5xl">Features That Set COMPSSA Apart</p>
           <p class="mt-6 text-lg/8 text-gray-300"> Explore the key features designed to enhance academic collaboration and streamline resource accessibility.</p>
         </div>
       </div>
@@ -263,8 +263,8 @@
         </div>
 
         <div>
-          <dt class="text-base/7 font-semibold text-white">Is COMPASSA free to use?</dt>
-          <dd class="mt-2 text-base/7 text-gray-300"> Yes, COMPASSA is completely free for all students at our university.</dd>
+          <dt class="text-base/7 font-semibold text-white">Is COMPSSA free to use?</dt>
+          <dd class="mt-2 text-base/7 text-gray-300"> Yes, COMPSSA is completely free for all students at our university.</dd>
         </div>
 
         <div>
