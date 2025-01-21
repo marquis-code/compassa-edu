@@ -123,7 +123,8 @@
           ]"
           @click="$refs.fileInput.click()"
         >
-        <div v-if="payload.fileUrls?.length > 0" class="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- {{ payload.fileUrls }} -->
+        <div v-if="payload.fileUrls?.length" class="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- Map through the uploaded files -->
           <div 
             v-for="(file, index) in payload.fileUrls" 
@@ -131,13 +132,13 @@
             class="w-full mb-4"
           >
             <img 
-              v-if="!['pdf', 'docx'].includes(getFileExtension(file))" 
+               v-if="!isIconNeeded(file)"
               class="w-full h-[250px] object-cover rounded-lg" 
               :src="file" 
             />
             <img 
               v-else 
-              src="@/assets/icons/pdf-file.svg"  
+               :src="getFileIcon(file)" 
               class="w-full h-[250px] object-contain p-8" 
             />
           </div>
@@ -213,6 +214,13 @@ const { sessions, loading:fetchingSessions  } = useGetSessions()
 import { useGetCategories } from '@/composables/modules/category/useFetchCategories'
 const { categories, loading:fetchingCategories  } = useGetCategories()
 const { uploadMaterials, uploading: batchProcessing, batchPayloadObj, setBatchPayload } = useBatchUploadMaterials()
+import pdf from "@/assets/icons/pdfs-file.svg";
+import doc from "@/assets/icons/doc-file.svg";
+import docx from "@/assets/icons/docx-file.svg";
+import pptx from "@/assets/icons/pptx-file.svg";
+import txt from "@/assets/icons/txt-file.svg";
+import xls from "@/assets/icons/xls-file.svg";
+import xlsx from "@/assets/icons/xlsx-file.svg";
 
 const { getFileExtension } = useFileExtension();
 const { user } = useUser();
@@ -338,6 +346,35 @@ const handleFileDrop = async (event: DragEvent) => {
   if (file) {
     formData.value.file = file;
   }
+};
+
+// Function to map file extensions to icons
+const getFileIcon = (fileUrl) => {
+  console.log(fileUrl, 'getting file icon utl')
+  const extension = getFileExtension(fileUrl);
+  const icons = {
+    pdf: pdf,
+    doc: doc,
+    docx: docx,
+    pptx: pptx,
+    xls: xls,
+    xlsx: xlsx,
+    // jpg: "@/assets/icons/image-file.svg",
+    // jpeg: "@/assets/icons/image-file.svg",
+    // png: "@/assets/icons/image-file.svg",
+    // gif: "@/assets/icons/image-file.svg",
+    txt: txt,
+    // Add more mappings as needed
+  };
+
+  // Fallback for unsupported file types
+  return icons[extension] || "@/assets/icons/default-file.svg";
+};
+
+// Function to determine if an icon should be shown
+const isIconNeeded = (fileUrl) => {
+  const supportedExtensions = ["pdf", "doc", "docx", "xls", "xlsx", "txt", 'pptx'];
+  return supportedExtensions.includes(getFileExtension(fileUrl));
 };
 
 // const handleFileSelect = async (event: Event) => {

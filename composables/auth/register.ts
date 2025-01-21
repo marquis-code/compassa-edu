@@ -35,7 +35,7 @@ export const use_auth_register = () => {
         showToast({
           title: "Success",
           message: "Signup was successful",
-          toastType: "error",
+          toastType: "success",
           duration: 3000,
         });
         router.push("/login");

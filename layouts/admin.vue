@@ -330,7 +330,7 @@
                         class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
                         >H</span
                       >
-                      <span class="truncate">Heroicons</span>
+                      <span class="truncate">Anatomy Group</span>
                     </a>
                   </li>
                   <li>
@@ -342,7 +342,7 @@
                         class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
                         >T</span
                       >
-                      <span class="truncate">Tailwind Labs</span>
+                      <span class="truncate">Physiology Group</span>
                     </a>
                   </li>
                   <li>
@@ -354,7 +354,7 @@
                         class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
                         >W</span
                       >
-                      <span class="truncate">Workcation</span>
+                      <span class="truncate">Biochemistry Group</span>
                     </a>
                   </li>
                 </ul>

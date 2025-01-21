@@ -21,7 +21,7 @@ export const useGetPendingMaterials = () => {
         materials.value = res.data;
         showToast({
           title: "Success",
-          message: "All materials fetched successfully.",
+          message: "",
           toastType: "success",
           duration: 3000,
         });

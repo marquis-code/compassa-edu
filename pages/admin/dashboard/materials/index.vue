@@ -8,7 +8,7 @@
             A list of all the materials uploaded including their name, description, type, semester, and status.
           </p>
         </div>
-        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <div class="mt-4 sm:ml-16 sm:mt-0 space-y-2 lg:space-y-0 sm:flex-none">
           <NuxtLink to="/admin/dashboard/materials/batch-upload"
             class="bg-black text-white text-sm  px-4 py-2.5 rounded mr-2">
             Batch Upload
@@ -69,17 +69,76 @@
 
           <div class="grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
             <dt class="font-medium text-gray-900">Content</dt>
-            <dd class="text-gray-700 sm:col-span-2">
-              <template v-if="isImage(selectedMaterial.fileUrl)">
-                <img :src="selectedMaterial.fileUrl" alt="Material Content" class="w-full h-auto rounded" />
-              </template>
-              <template v-else-if="isPDF(selectedMaterial.fileUrl)">
-                <embed :src="selectedMaterial.fileUrl" type="application/pdf" class="w-full h-96 border rounded" />
-              </template>
-              <template v-else>
-                <p>Unsupported file format</p>
-              </template>
-            </dd>
+            <!-- {{ selectedMaterial.fileUrls }} -->
+            <!-- <dd class="text-gray-700 sm:col-span-2">
+             <section v-for="(item, idx) in selectedMaterial.fileUrls" :key="idx">
+                <template v-if="isImage(item)">
+                  <img :src="item" alt="Material Content" class="w-full h-auto rounded" />
+                </template>
+                <template v-else-if="isPDF(item)">
+                  <embed :src="item" type="application/pdf" class="w-full h-96 border rounded" />
+                </template>
+                <template v-else>
+                  <p>Unsupported file format</p>
+                </template>
+             </section>
+            </dd> -->
+            <!-- <dd class="text-gray-700 sm:col-span-2">
+    <section v-for="(item, idx) in selectedMaterial.fileUrls" :key="idx">
+      <template v-if="isImage(item)">
+        <img :src="item" alt="Material Content" class="w-full h-auto rounded" />
+      </template>
+      <template v-else-if="isPDF(item)">
+        <embed :src="item" type="application/pdf" class="w-full h-96 border rounded" />
+      </template>
+      <template v-else-if="isWordDoc(item)">
+        <a :href="item" target="_blank" class="text-blue-500 underline">
+          Download Word Document
+        </a>
+      </template>
+      <template v-else-if="isPowerPoint(item)">
+        <a :href="item" target="_blank" class="text-blue-500 underline">
+          Download PowerPoint Presentation
+        </a>
+      </template>
+      <template v-else-if="isExcelSheet(item)">
+        <a :href="item" target="_blank" class="text-blue-500 underline">
+          Download Excel Spreadsheet
+        </a>
+      </template>
+      <template v-else-if="isTextFile(item)">
+        <iframe :src="item" class="w-full h-96 border rounded"></iframe>
+      </template>
+      <template v-else>
+        <p>Unsupported file format</p>
+      </template>
+    </section>
+  </dd> -->
+  <dd class="text-gray-700 sm:col-span-2">
+    <section v-for="(item, idx) in selectedMaterial.fileUrls" :key="idx" class="mb-4">
+      <template v-if="isImage(item)">
+        <img :src="item" alt="Material Content" class="w-full h-auto rounded" />
+      </template>
+      <template v-else-if="isPDF(item)">
+        <embed :src="item" type="application/pdf" class="w-full h-96 border rounded" />
+      </template>
+      <template v-else-if="isWordDoc(item) || isPowerPoint(item) || isExcelSheet(item)">
+        <iframe
+          :src="`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item)}`"
+          class="w-full h-96 border rounded"
+        ></iframe>
+      </template>
+      <template v-else-if="isTextFile(item)">
+        <iframe :src="item" class="w-full h-96 border rounded"></iframe>
+      </template>
+      <template v-else>
+        <p>Unsupported file format</p>
+      </template>
+      <a :href="item" target="_blank" class="text-blue-500 underline mt-2 block">
+        Download
+      </a>
+    </section>
+  </dd>
           </div>
         </dl>
       </div>
@@ -248,6 +307,26 @@ const rejectionReason = ref('');
 const selectAll = ref(false);
 const showCreateMaterialDrawer = ref(false)
 
+
+const isImage = (url) => /\.(jpeg|jpg|png|gif)$/i.test(url);
+const isPDF = (url) => /\.pdf$/i.test(url);
+const isWordDoc = (url) => /\.(doc|docx)$/i.test(url);
+const isPowerPoint = (url) => /\.(ppt|pptx)$/i.test(url);
+const isExcelSheet = (url) => /\.(xls|xlsx)$/i.test(url);
+const isTextFile = (url) => /\.txt$/i.test(url);
+
+// Simulating the selectedMaterial object
+// const selectedMaterial = reactive({
+//   fileUrls: [
+//     "example.pdf",
+//     "example.docx",
+//     "example.png",
+//     "example.pptx",
+//     "example.txt",
+//     "unsupported.xyz",
+//   ],
+// });
+
 function openDrawer(material: any) {
   selectedMaterial.value = material;
   showDrawer.value = true;
@@ -318,13 +397,13 @@ async function approveMaterial(material: any) {
   closeDrawer();
 }
 
-function isImage(url: string) {
-  return /\.(jpeg|jpg|png)$/i.test(url);
-}
+// function isImage(url: string) {
+//   return /\.(jpeg|jpg|png)$/i.test(url);
+// }
 
-function isPDF(url: string) {
-  return /\.pdf$/i.test(url);
-}
+// function isPDF(url: string) {
+//   return /\.pdf$/i.test(url);
+// }
 
 // function performBatchApproval() {
 //   if (!selectedMaterials.value.length) {

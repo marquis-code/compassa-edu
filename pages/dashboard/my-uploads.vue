@@ -3,7 +3,7 @@
         <main class="flex-1 lg:-mt-5">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
                 <div class="flex justify-between items-center w-full">
-                    <h1 class="text-2xl font-semibold">Welcome back {{ user?.name ?? '' }}</h1>
+                    <h1 class="text-lg font-semibold">Hello, {{ user?.name ?? '' }}</h1>
                     <button type="button" @click="showDrawer = true"
                         class="text-white lg:hidden border border-white"><svg xmlns="http://www.w3.org/2000/svg"
                             width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
@@ -227,24 +227,42 @@
             </div>
             <!-- Files Preview Section -->
             <div v-if="materials?.length > 0" class="mb-8">
-                <h2 class="text-xl font-medium mb-4">Recent Uploads</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <h2 class="text-lg font-medium mb-4">Recent Uploads</h2>
+                <div v-if="filteredMaterials && !loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- {{allMaterialsList}} -->
-                    <div v-for="file in filteredMaterials" :key="file.id"
+                    <div v-for="file in filteredMaterials" :key="file._id"
                         class="bg-white border-[0.5px] border-gray-100 rounded-xl">
                         <!-- {{ file }} -->
                         <div class="aspect-video mb-4 rounded-lg overflow-hidden">
                             <!-- <img src="@/assets/icons/pdf-file.svg" /> -->
                             <!--  -->
-                            <div v-if="file?.fileUrl">
+                            <!-- <div v-if="file?.fileUrl">
                                 <img v-if="getFileExtension(file?.fileUrl) === 'pdf'" src="@/assets/icons/pdf-file.svg"
                                     class="object-cover" />
                                 <img v-else :src="file.fileUrl" :alt="file.name" class="w-full h-full object-cover">
-                            </div>
+                            </div> -->
+                            <!-- <div v-if="file?.fileUrls">
+                                    <img
+                                    :src="getFileIcon(file?.fileUrl)"
+                                    v-if="isIconNeeded(file?.fileUrl)"
+                                    class="object-cover"
+                                    />
+                                    <img
+                                    v-else
+                                    :src="file.fileUrl"
+                                    :alt="file.name"
+                                    class="w-full h-full object-cover"
+                                    />
+                                </div> -->
 
                             <div v-if="file?.fileUrls.length" v-for="item in file?.fileUrls">
-                                <img v-if="getFileExtension(item) === 'pdf'" src="@/assets/icons/pdf-file.svg"
-                                    class="object-cover" />
+                                <!-- <img v-if="getFileExtension(item) === 'pdf'" src="@/assets/icons/pdf-file.svg"
+                                    class="object-cover" /> -->
+                                    <img
+                                    :src="getFileIcon(item)"
+                                    v-if="isIconNeeded(item)"
+                                    class="object-cover"
+                                    />
                                 <img v-else :src="item" alt="Image File" class="w-full h-full object-cover">
                             </div>
                         </div>
@@ -261,6 +279,13 @@
                         </div>
                     </div>
                 </div>
+                <div v-else class="border-[0.5px] rounded-lg  py-10 flex justify-center flex-col gap-y-2 shadow items-center">
+                    <svg class="h-32 w-32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.5 20C18.5 20.275 18.276 20.5 18 20.5H12.2678C11.9806 21.051 11.6168 21.5557 11.1904 22H18C19.104 22 20 21.104 20 20V9.828C20 9.298 19.789 8.789 19.414 8.414L13.585 2.586C13.57 2.57105 13.5531 2.55808 13.5363 2.5452C13.5238 2.53567 13.5115 2.5262 13.5 2.516C13.429 2.452 13.359 2.389 13.281 2.336C13.2557 2.31894 13.2281 2.30548 13.2005 2.29207C13.1845 2.28426 13.1685 2.27647 13.153 2.268C13.1363 2.25859 13.1197 2.24897 13.103 2.23933C13.0488 2.20797 12.9944 2.17648 12.937 2.152C12.74 2.07 12.528 2.029 12.313 2.014C12.2933 2.01274 12.2738 2.01008 12.2542 2.00741C12.2271 2.00371 12.1999 2 12.172 2H6C4.896 2 4 2.896 4 4V11.4982C4.47417 11.3004 4.97679 11.1572 5.5 11.0764V4C5.5 3.725 5.724 3.5 6 3.5H12V8C12 9.104 12.896 10 14 10H18.5V20ZM13.5 4.621L17.378 8.5H14C13.724 8.5 13.5 8.275 13.5 8V4.621Z" fill="#212121"/>
+                    <path d="M12 17.5C12 20.5376 9.53757 23 6.5 23C3.46243 23 1 20.5376 1 17.5C1 14.4624 3.46243 12 6.5 12C9.53757 12 12 14.4624 12 17.5ZM2.5 17.5C2.5 18.3335 2.75495 19.1075 3.19112 19.7482L8.74822 14.1911C8.10751 13.755 7.33353 13.5 6.5 13.5C4.29086 13.5 2.5 15.2909 2.5 17.5ZM6.5 21.5C8.70914 21.5 10.5 19.7091 10.5 17.5C10.5 16.6665 10.245 15.8925 9.80888 15.2518L4.25178 20.8089C4.89249 21.245 5.66647 21.5 6.5 21.5Z" fill="#212121"/>
+                    </svg>
+                    <p class="text-gray-600">No documents available</p>
+                    </div>
             </div>
 
             <!-- Folders Section -->
@@ -488,6 +513,14 @@ import { useGetSessions } from '@/composables/modules/session/useFetchSessions'
 import { useGetCategories } from '@/composables/modules/category/useFetchCategories'
 import { useGetUserMaterials } from '@/composables/modules/materials/useGetUserMaterials'
 import { useFileExtension } from '@/composables/core/useFileExtension';
+import pdf from "@/assets/icons/pdfs-file.svg";
+import doc from "@/assets/icons/doc-file.svg";
+import docx from "@/assets/icons/docx-file.svg";
+import pptx from "@/assets/icons/pptx-file.svg";
+import txt from "@/assets/icons/txt-file.svg";
+import xls from "@/assets/icons/xls-file.svg";
+import xlsx from "@/assets/icons/xlsx-file.svg";
+
 
 const { getFileExtension } = useFileExtension();
 const { user } = useUser()
@@ -519,6 +552,34 @@ const searchQuery = ref('')
 const selectedSession = ref('')
 const selectedSemester = ref('')
 const selectedCategory = ref('')
+
+// Function to map file extensions to icons
+const getFileIcon = (fileUrl) => {
+  const extension = getFileExtension(fileUrl);
+  const icons = {
+    pdf: pdf,
+    doc: doc,
+    docx: docx,
+    pptx: pptx,
+    xls: xls,
+    xlsx: xlsx,
+    // jpg: "@/assets/icons/image-file.svg",
+    // jpeg: "@/assets/icons/image-file.svg",
+    // png: "@/assets/icons/image-file.svg",
+    // gif: "@/assets/icons/image-file.svg",
+    txt: txt,
+    // Add more mappings as needed
+  };
+
+  // Fallback for unsupported file types
+  return icons[extension] || "@/assets/icons/default-file.svg";
+};
+
+// Function to determine if an icon should be shown
+const isIconNeeded = (fileUrl) => {
+  const supportedExtensions = ["pdf", "doc", "docx", "xls", "xlsx", "txt", 'pptx'];
+  return supportedExtensions.includes(getFileExtension(fileUrl));
+};
 
 // Add computed property for filtered materials
 // const filteredMaterials = computed(() => {

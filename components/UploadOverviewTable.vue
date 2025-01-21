@@ -127,7 +127,7 @@ const groupedMaterials = ref(groupByDate(materials));
                   </td>
                   <td class="py-5 text-right">
                     <div class="flex justify-end">
-                      <a :href="material.fileUrl" target="_blank" class="text-sm/6 font-medium text-indigo-600 hover:text-indigo-500">View<span class="hidden sm:inline"> material</span></a>
+                      <a :href="material.fileUrl" target="_blank" class="text-sm/6 font-medium text-[#5B8469]">View<span class="hidden sm:inline"> material</span></a>
                     </div>
                   </td>
                 </tr>

@@ -1,9 +1,9 @@
 <template>
             <div>
-  <h3 class="text-base font-semibold text-gray-900">Last 30 days</h3>
+  <h3 class="text-base font-semibold text-gray-900">{{ greeting }}, {{ user?.name }}</h3>
 
   <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow border-[0.5px] border-gray-200 sm:px-6 sm:pt-6">
       <dt>
         <div class="absolute rounded-md">
          <img src="@/assets/icons/uploaded-materials.svg" class="h-12 w-12" />
@@ -21,12 +21,12 @@
         </p>
         <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
           <div class="text-sm">
-            <NuxtLink to="/dashboard/all-uploads" class="font-medium text-indigo-600 hover:text-indigo-500">View all<span class="sr-only"> Total Subscribers stats</span></NuxtLink>
+            <NuxtLink to="/dashboard/all-uploads" class="font-medium text-[#5B8469] ">View all<span class="sr-only"> Total Subscribers stats</span></NuxtLink>
           </div>
         </div>
       </dd>
     </div>
-    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5  border-[0.5px] border-gray-200 sm:px-6 sm:pt-6">
       <dt>
         <div class="absolute rounded-md">
           <img src="@/assets/icons/uploaded-materials.svg" class="h-12 w-12" />
@@ -44,12 +44,12 @@
         </p>
         <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
           <div class="text-sm">
-            <NuxtLink to="/dashboard/my-uploads" class="font-medium text-indigo-600 hover:text-indigo-500">View all<span class="sr-only"> Avg. Open Rate stats</span></NuxtLink>
+            <NuxtLink to="/dashboard/my-uploads" class="font-medium text-[#5B8469] ">View all<span class="sr-only"> Avg. Open Rate stats</span></NuxtLink>
           </div>
         </div>
       </dd>
     </div>
-    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+    <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow border-[0.5px] border-gray-200 sm:px-6 sm:pt-6">
       <dt>
         <div class="absolute rounded-md">
           <img src="@/assets/icons/points.svg" class="h-12 w-12" />
@@ -67,7 +67,7 @@
         </p>
         <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
           <div class="text-sm">
-            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View breakdown</a>
+            <a href="#" class="font-medium text-[#5B8469] ">View breakdown</a>
           </div>
         </div>
       </dd>
@@ -79,8 +79,10 @@
 <script setup lang="ts">
 import { useGetAllMaterials } from '@/composables/modules/materials/useGetAllMaterials'
 import { useUser } from '@/composables/auth/user'
+import { useGreeting } from '@/composables/core/useGreeting'
 import { useGetUserMaterials } from '@/composables/modules/materials/useGetUserMaterials'
 const { materials: materialsList, loading: loadingAllMaterials, queryParams, getAllMaterials } = useGetAllMaterials()
 const { materials, loading, } = useGetUserMaterials()
+const { greeting } = useGreeting()
 const { user } = useUser()
 </script>

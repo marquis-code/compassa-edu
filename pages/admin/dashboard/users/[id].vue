@@ -294,6 +294,31 @@
           <div class="grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
             <dt class="font-medium text-gray-900">Content</dt>
             <dd class="text-gray-700 sm:col-span-2">
+    <section v-for="(item, idx) in selectedMaterial.fileUrls" :key="idx" class="mb-4">
+      <template v-if="isImage(item)">
+        <img :src="item" alt="Material Content" class="w-full h-auto rounded" />
+      </template>
+      <template v-else-if="isPDF(item)">
+        <embed :src="item" type="application/pdf" class="w-full h-96 border rounded" />
+      </template>
+      <template v-else-if="isWordDoc(item) || isPowerPoint(item) || isExcelSheet(item)">
+        <iframe
+          :src="`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item)}`"
+          class="w-full h-96 border rounded"
+        ></iframe>
+      </template>
+      <template v-else-if="isTextFile(item)">
+        <iframe :src="item" class="w-full h-96 border rounded"></iframe>
+      </template>
+      <template v-else>
+        <p>Unsupported file format</p>
+      </template>
+      <a :href="item" target="_blank" class="text-blue-500 underline mt-2 block">
+        Download
+      </a>
+    </section>
+  </dd>
+            <!-- <dd class="text-gray-700 sm:col-span-2">
               <template v-if="isImage(selectedMaterial.fileUrl)">
                 <img :src="selectedMaterial.fileUrl" alt="Material Content" class="w-full h-auto rounded" />
               </template>
@@ -303,7 +328,7 @@
               <template v-else>
                 <p>Unsupported file format</p>
               </template>
-            </dd>
+            </dd> -->
           </div>
         </dl>
       </div>
@@ -336,6 +361,13 @@ definePageMeta({
 
 const showRejectModal = ref(false);
 
+const isImage = (url) => /\.(jpeg|jpg|png|gif)$/i.test(url);
+const isPDF = (url) => /\.pdf$/i.test(url);
+const isWordDoc = (url) => /\.(doc|docx)$/i.test(url);
+const isPowerPoint = (url) => /\.(ppt|pptx)$/i.test(url);
+const isExcelSheet = (url) => /\.(xls|xlsx)$/i.test(url);
+const isTextFile = (url) => /\.txt$/i.test(url);
+
 function statusClass(status: string) {
   switch (status?.toLowerCase()) {
     case "approved":
@@ -362,13 +394,13 @@ function capitalizeWords(str: string) {
     .join(' ');
 }
 
-function isImage(url: string) {
-  return /\.(jpeg|jpg|png)$/i.test(url);
-}
+// function isImage(url: string) {
+//   return /\.(jpeg|jpg|png)$/i.test(url);
+// }
 
-function isPDF(url: string) {
-  return /\.pdf$/i.test(url);
-}
+// function isPDF(url: string) {
+//   return /\.pdf$/i.test(url);
+// }
 
 
 function openDrawer(material: any) {

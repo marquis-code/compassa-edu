@@ -1,7 +1,5 @@
-import { defineNuxtConfig } from "nuxt/config";
-
-export default defineNuxtConfig({
-  target: "static",
+export default {
+  ssr: false,
   postcss: {
     plugins: {
       "postcss-import": {},
@@ -12,7 +10,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "COMPSSA Learn",
+      title: "COMPSSAcademy",
       htmlAttrs: { lang: "en" },
       meta: [
         { charset: "utf-8" },
@@ -104,4 +102,4 @@ export default defineNuxtConfig({
   //     // Workbox options for customizing the service worker
   //   }
   // }
-});
+};

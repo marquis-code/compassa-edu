@@ -19,12 +19,12 @@ export const useGetAllMaterials = () => {
         const { academicLevel, semester, materialType, status } = queryParams.value;
         const res = await material_api.$_get_all_materials(academicLevel, semester, materialType, status) as any
         materials.value = res.data;
-        showToast({
-          title: "Success",
-          message: "All materials fetched successfully.",
-          toastType: "success",
-          duration: 3000,
-        });
+        // showToast({
+        //   title: "Success",
+        //   message: "",
+        //   toastType: "success",
+        //   duration: 3000,
+        // });
       } catch (error: any) {
         showToast({
           title: "Error",

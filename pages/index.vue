@@ -62,7 +62,7 @@
     <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
       <div class="mx-auto max-w-2xl lg:text-center">
         <!-- <h2 class="text-base/7 font-semibold text-indigo-400">Deploy faster</h2> -->
-        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-balance">Why COMPSSA?</p>
+        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-balance">Why COMPSSACADEMY?</p>
         <p class="mt-6 text-lg/8 text-gray-300">Empower students with access to centralized academic resources, collaborative tools, and cutting-edge technology.</p>
       </div>
       <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -124,13 +124,13 @@
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl sm:text-center">
           <h2 class="text-base/7 font-semibold text-indigo-400">Everything you need</h2>
-          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-balance sm:text-5xl">Features That Set COMPSSA Apart</p>
+          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-white sm:text-balance sm:text-5xl">Features That Set COMPSSACADEMY Apart</p>
           <p class="mt-6 text-lg/8 text-gray-300"> Explore the key features designed to enhance academic collaboration and streamline resource accessibility.</p>
         </div>
       </div>
       <div class="relative overflow-hidden pt-16">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <img src="https://tailwindui.com/plus/img/component-images/dark-project-app-screenshot.png" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10" width="2432" height="1442">
+          <img src="@/assets/img/mockup3.png" alt="App screenshot" class="mb-[-12%]" width="2432" height="1442">
           <div class="relative" aria-hidden="true">
             <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-gray-900 pt-[7%]"></div>
           </div>
