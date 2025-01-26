@@ -3,16 +3,17 @@
 import { group_api } from "@/api_factory/modules/group";
 import { useCustomToast } from "@/composables/core/useCustomToast";
 
-export const useGetAllGroups = () => {
+export const useGetUserGroups = () => {
     const { showToast } = useCustomToast();
-    const groups = ref([]);
+    const userGroupsList = ref([]);
     const loading = ref(false);
   
-    const fetchGroups = async () => {
+    const fetchUserGroups = async () => {
       loading.value = true;
       try {
-        const res = await group_api.$_get_all_groups();
-        groups.value = res.data;
+        const res = await group_api.$_get_user_groups();
+        console.log(res, 'user griups here')
+        userGroupsList.value = res.data;
       } catch (error: any) {
         showToast({
           title: "Error",
@@ -25,9 +26,9 @@ export const useGetAllGroups = () => {
       }
     };
 
-    onMounted(() => {
-      fetchGroups()
+    onMounted(async () => {
+      await fetchUserGroups()
     })
   
-    return { groups, loading, fetchGroups };
+    return { userGroupsList, loading, fetchUserGroups };
   };

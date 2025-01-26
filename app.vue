@@ -5,6 +5,7 @@
       <NuxtPage class="z-10"/>
       <CoreCommandPalate />
     </NuxtLayout>
+    <CoreToolifyWidget />
   </main>
 </template>
 

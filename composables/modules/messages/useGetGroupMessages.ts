@@ -2,9 +2,13 @@ import { message_api } from "@/api_factory/modules/message";
 import { group_api } from "@/api_factory/modules/group";
 import { useCustomToast } from "@/composables/core/useCustomToast";
 import { ref } from "vue";
+const router = useRouter()
+const route = useRoute()
 
 export const useGetGroupMessages = () => {
     const { showToast } = useCustomToast();
+    const router = useRouter()
+    const route = useRoute()
     const messages = ref([]);
     const loading = ref(false);
   
@@ -24,6 +28,13 @@ export const useGetGroupMessages = () => {
         loading.value = false;
       }
     };
+
+    watch(() => route.query.group, (newGroup, oldGroup) => {
+      console.log(newGroup, 'new group value');
+      if (newGroup) {
+        fetchGroupMessages(newGroup);
+      }
+    }, { immediate: true });
   
     return { messages, loading, fetchGroupMessages };
   };

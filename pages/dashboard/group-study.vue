@@ -1,6 +1,5 @@
 <template>
-    <!-- component -->
-<div class="flex h-screen antialiased text-gray-800">
+  <div class="flex h-screen antialiased text-gray-800">
     <div class="flex flex-row h-full w-full overflow-x-hidden">
       <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
         <div class="flex flex-row items-center justify-center h-12 w-full">
@@ -22,320 +21,72 @@
               ></path>
             </svg>
           </div>
-          <div class="ml-2 font-bold text-2xl">QuickChat</div>
-        </div>
-        <div
-          class="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg"
-        >
-          <div class="h-20 w-20 rounded-full border overflow-hidden">
-            <img
-              src="https://avatars3.githubusercontent.com/u/2763884?s=128"
-              alt="Avatar"
-              class="h-full w-full"
-            />
-          </div>
-          <div class="text-sm font-semibold mt-2">Aminos Co.</div>
-          <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
-          <div class="flex flex-row items-center mt-3">
-            <div
-              class="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full"
-            >
-              <div class="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
-            </div>
-            <div class="leading-none ml-1 text-xs">Active</div>
-          </div>
+          <div class="ml-2 font-bold text-2xl">Group Study</div>
         </div>
         <div class="flex flex-col mt-8">
           <div class="flex flex-row items-center justify-between text-xs">
-            <span class="font-bold">Active Conversations</span>
+            <span class="font-bold">Active Groups</span>
             <span
               class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-              >4</span
+              >{{userGroupsList.length}}</span
             >
+          </div>
+          <div v-if="fetchingUserGroups" class="animate-pulse flex space-x-4 rounded-md p-4 w-full mx-auto">
+            <div class="h-44 w-full bg-slate-200 rounded col-span-1"></div>
           </div>
           <div class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
-            <button
+            <button 
+                v-for="(item, idx) in userGroupsList" 
+                :key="idx"
+                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                @click="handleFetchGroupMessages(item)"
+              >
+                <div
+                  class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
+                >
+                  {{ item?.name?.charAt(0)?.toUpperCase() ?? 'N' }}
+                </div>
+                <div class="ml-2 text-sm text-start font-semibold">
+                  {{ item?.name ?? 'Nil' }}
+                </div>
+              </button>
+            <!-- <button 
+              v-for="(item, idx) in userGroupsList" :key="idx"
               class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+              @click="handleFetchGroupMessages(item)"
             >
               <div
                 class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
               >
                 H
               </div>
-              <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-            </button>
-            <button
-              class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-            >
-              <div
-                class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
-              >
-                M
-              </div>
-              <div class="ml-2 text-sm font-semibold">Marta Curtis</div>
-              <div
-                class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none"
-              >
-                2
-              </div>
-            </button>
-            <button
-              class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-            >
-              <div
-                class="flex items-center justify-center h-8 w-8 bg-orange-200 rounded-full"
-              >
-                P
-              </div>
-              <div class="ml-2 text-sm font-semibold">Philip Tucker</div>
-            </button>
-            <button
-              class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-            >
-              <div
-                class="flex items-center justify-center h-8 w-8 bg-pink-200 rounded-full"
-              >
-                C
-              </div>
-              <div class="ml-2 text-sm font-semibold">Christine Reid</div>
-            </button>
-            <button
-              class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-            >
-              <div
-                class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full"
-              >
-                J
-              </div>
-              <div class="ml-2 text-sm font-semibold">Jerry Guzman</div>
-            </button>
-          </div>
-          <div class="flex flex-row items-center justify-between text-xs mt-6">
-            <span class="font-bold">Archivied</span>
-            <span
-              class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-              >7</span
-            >
-          </div>
-          <div class="flex flex-col space-y-1 mt-4 -mx-2">
-            <button
-              class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-            >
-              <div
-                class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
-              >
-                H
-              </div>
-              <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-            </button>
+              <div class="ml-2 text-sm text-start font-semibold">{{item?.name ?? 'Nil'}}</div>
+            </button> -->
           </div>
         </div>
       </div>
+
       <div class="flex flex-col flex-auto h-full p-6">
-        <div
-          class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4"
-        >
+        <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
           <div class="flex flex-col h-full overflow-x-auto mb-4">
-            <div class="flex flex-col h-full">
-              <div class="grid grid-cols-12 gap-y-2">
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>Hey How are you today?</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Vel ipsa commodi illum saepe numquam maxime
-                        asperiores voluptate sit, minima perspiciatis.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                  <div class="flex items-center justify-start flex-row-reverse">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>I'm ok what about you?</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                  <div class="flex items-center justify-start flex-row-reverse">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>Lorem ipsum dolor sit amet !</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                  <div class="flex items-center justify-start flex-row-reverse">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                      </div>
-                      <div
-                        class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500"
-                      >
-                        Seen
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                    >
-                      <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Perspiciatis, in.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                    >
-                      A
-                    </div>
-                    <div
-                      class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                    >
-                      <div class="flex flex-row items-center">
-                        <button
-                          class="flex items-center justify-center bg-indigo-600 hover:bg-indigo-800 rounded-full h-8 w-10"
-                        >
-                          <svg
-                            class="w-6 h-6 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.5"
-                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                            ></path>
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.5"
-                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            ></path>
-                          </svg>
-                        </button>
-                        <div class="flex flex-row items-center space-x-px ml-4">
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-12 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-6 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-5 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-3 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-1 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-1 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                          <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div v-if="sendingMessage" class="text-gray-500">Sending...</div>
+            <ChatMessage v-if="messagesList" :creating="creating" :uploadingFile="uploadingFile" :messages="messagesList" />
+            <!-- <CoreFullScreenLoader class="z-50" :text="`Fetching ${selectedGroup.name} messages`" :visible="fetchingGroupMessages" /> -->
           </div>
-          <div
-            class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
-          >
-            <div>
+          <div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+            <div class="relative w-full">
+              <input
+                type="text"
+                v-model="messageContent"
+                placeholder="Type your message..."
+                class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+              />
               <button
-                class="flex items-center justify-center text-gray-400 hover:text-gray-600"
+                @click="handleSendMessage"
+                class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
               >
                 <svg
-                  class="w-5 h-5"
+                  class="w-6 h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -345,77 +96,312 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                   ></path>
                 </svg>
               </button>
             </div>
-            <div class="flex-grow ml-4">
-              <div class="relative w-full">
-                <input
-                  type="text"
-                  class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
-                />
-                <button
-                  class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-                >
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="ml-4">
-              <button
-                class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-              >
-                <span>Send</span>
-                <span class="ml-2">
-                  <svg
-                    class="w-4 h-4 transform rotate-45 -mt-px"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    ></path>
-                  </svg>
-                </span>
-              </button>
-            </div>
+
+            <input
+              type="file"
+              ref="fileInput"
+              accept="image/*, video/*, audio/*, .pdf, .doc"
+              class="hidden"
+              @change="handleFileInput"
+            />
+            <button
+              @click="triggerFileInput"
+              class="ml-4 flex items-center justify-center h-full w-12 text-gray-400 hover:text-gray-600"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+            </button>
+
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
 </template>
 
+
 <script setup lang="ts">
-import { useGetAllGroups } from '@/composables/modules/group/useGetAllGroups'
-import { useWebSocket } from '@/composables/modules/messages/socket'
-const { 
-    messages,
-    isConnected,
-    getGroupMessages,
-    sendMessage,
-    joinGroup,
-    markMessagesAsRead,
-} = useWebSocket()
-const { groups, loading  } = useGetAllGroups()
+import { ref, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useUser } from "@/composables/auth/user";
+import { useCreateMessage } from "@/composables/modules/messages/useCreateMessage";
+import { useGetUserGroups } from '@/composables/modules/group/useGetUserGroups';
+import { useGetAllGroups } from "@/composables/modules/group/useGetAllGroups";
+import { useGetGroupMessages } from "@/composables/modules/messages/useGetGroupMessages";
+import { useWebSocket } from "@/composables/modules/messages/socket";
+import { useUploadFile } from '@/composables/core/useFileUpload'
+import { io, Socket } from "socket.io-client";
+const { user }  = useUser()
+import { Picker } from "emoji-mart";
+
+const {
+  messages,
+  isConnected,
+  getGroupMessages,
+  sendMessage,
+  joinGroup,
+  markMessagesAsRead,
+} = useWebSocket();
+const { userGroupsList, loading: fetchingUserGroups } = useGetUserGroups();
+const { uploadFile, loading: uploadingFile, uploadResponse } = useUploadFile()
+const { groups, loading } = useGetAllGroups();
+const router = useRouter();
+const route = useRoute();
+const { messages: messagesList, loading: fetchingGroupMessages, fetchGroupMessages } =
+  useGetGroupMessages();
+const { payload, loading: creating, setPayload, createMessage } = useCreateMessage();
+
+const selectedGroup = ref({});
+const messageContent = ref(""); // Reactive property for message content
+const sendingMessage = ref(false); // Track sending status
+const selectedFile = ref<File | null>(null);
+const socket = ref<Socket | null>(null) as any;
+
+const handleFetchGroupMessages = (item: any) => {
+  selectedGroup.value = item;
+  router.push({
+    path: route.path,
+    query: { ...route.query, group: item._id },
+  });
+
+  // Fetch group messages
+  // socket.value.emit("joinGroup", item._id);
+  fetchGroupMessages(item._id);
+};
+
+definePageMeta({
+  middleware: 'auth'
+});
+
+
+// Function to handle sending messages
+// const handleSendMessage = async () => {
+//   if (!messageContent.value.trim()) return; // Do nothing if message is empty
+
+//   const groupId = route.query.group;
+//   if (!groupId) {
+//     console.error("No group selected to send a message");
+//     return;
+//   }
+
+//   try {
+//     sendingMessage.value = true; // Set sending status
+
+//     setPayload({
+//       groupId,
+//       content: messageContent.value,
+//     });
+
+//     await createMessage();
+
+//     // Clear the input field after sending
+//     messageContent.value = "";
+
+//     // Fetch updated messages
+//     await fetchGroupMessages(groupId);
+//   } catch (error) {
+//     console.error("Failed to send message:", error);
+//   } finally {
+//     sendingMessage.value = false; // Reset sending status
+//   }
+// };
+
+const handleSendMessage = async () => {
+  if (!messageContent.value.trim()) return;
+
+  const groupId = route.query.group;
+  if (!groupId) {
+    console.error("No group selected to send a message");
+    return;
+  }
+
+  const tempMessage = {
+    _id: Date.now().toString(), // Temporary ID
+    content: messageContent.value,
+    createdAt: new Date().toISOString(),
+    sender: { _id: user.value._id },
+    status: "sending",
+  };
+  messagesList.value.push(tempMessage); // Display message immediately
+
+  try {
+    setPayload({ groupId, content: messageContent.value });
+    await createMessage();
+
+    // Update message status to 'sent'
+    const messageIndex = messagesList.value.findIndex((msg) => msg._id === tempMessage._id);
+    if (messageIndex !== -1) messagesList.value[messageIndex].status = "sent";
+    // Fetch updated messages
+    await fetchGroupMessages(groupId);
+        messageContent.value = ""
+  } catch (error) {
+    console.error("Failed to send message:", error);
+  }
+};
+
+
+const showEmojiPicker = ref(false);
+
+
+  const updateUrlWithGroupId = (groupId: string) => {
+      console.log(`[updateUrlWithGroupId] Updating URL with group ID: ${groupId}`);
+      router.replace({ query: { ...route.query, group: groupId } });
+    };
+
+    onMounted(() => {
+      console.log('[onMounted] Component mounted.');
+
+      if (user.value._id) {
+        console.log(`[onMounted] User ID found: ${user.value._id}`);
+      } else {
+        console.warn('[onMounted] No user ID found.');
+      }
+
+      if (userGroupsList.value?.length > 0) {
+        const firstGroup = userGroupsList.value[0]._id;
+        console.log(`[onMounted] Found first group ID: ${firstGroup}`);
+        updateUrlWithGroupId(firstGroup);
+        fetchGroupMessages(firstGroup);
+      } else {
+        console.warn('[onMounted] No groups found in userGroupsList.');
+      }
+    });
+
+    watch(
+      () => userGroupsList.value,
+      (newGroups) => {
+        console.log('[watch:userGroupsList] userGroupsList changed.');
+
+        if (newGroups?.length > 0) {
+          const firstGroup = newGroups[0]._id;
+          console.log(`[watch:userGroupsList] Found first group ID: ${firstGroup}`);
+          updateUrlWithGroupId(firstGroup);
+          fetchGroupMessages(firstGroup);
+        } else {
+          console.warn('[watch:userGroupsList] userGroupsList is empty.');
+        }
+      },
+      { immediate: true }
+    );
+
+
+//     const handleSendFile = async () => {
+//   if (!selectedFile.value) return;
+
+//   const groupId = route.query.group;
+//   if (!groupId) {
+//     console.error("No group selected to send a file");
+//     return;
+//   }
+
+//   try {
+//     const formData = new FormData();
+//     formData.append("file", selectedFile.value);
+//     formData.append("groupId", groupId as string);
+
+//     setPayload({ groupId, content: 'File', attachments: [selectedFile.value] });
+//     await createMessage();
+//     // Add custom logic to send formData to the backend (e.g., Axios or Fetch API)
+//     // await createMessage(); // Mocked function
+
+//     selectedFile.value = null;
+//   } catch (error) {
+//     console.error("Failed to send file:", error);
+//   }
+// };
+
+
+//     const triggerFileInput = () => {
+//   const fileInput = document.querySelector("input[type='file']") as HTMLInputElement;
+//   fileInput?.click();
+// };
+
+// const handleFileInput = async (event: Event) => {
+//   const target = event.target as HTMLInputElement;
+//   if (target.files && target.files.length > 0) {
+//     // selectedFile.value = target.files[0];
+//     const res = await uploadFile(target.files[0])
+//     selectedFile.value = res.url
+//     await handleSendFile();
+//   }
+// };
+
+const handleSendFile = async () => {
+  if (!selectedFiles.value.length) return;
+
+  const groupId = route.query.group;
+  if (!groupId) {
+    console.error("No group selected to send a file");
+    return;
+  }
+
+  try {
+    // Extract file URLs and determine the type
+    const fileUrls = selectedFiles.value.map((file) => file.url);
+    const fileType = selectedFiles.value[0]?.type;
+
+    // Ensure all selected files have the same type
+    const isValidType = selectedFiles.value.every((file) => file.type === fileType);
+    if (!isValidType) {
+      console.error("All selected files must have the same type.");
+      return;
+    }
+
+    // Create the payload
+    setPayload({
+      groupId,
+      content: 'File', // Or a more specific content message
+      attachments: fileUrls,
+      type: fileType,
+    });
+
+    await createMessage();
+
+    // Clear selected files after successful upload
+    selectedFiles.value = [];
+  } catch (error) {
+    console.error("Failed to send file:", error);
+  }
+};
+
+const triggerFileInput = () => {
+  const fileInput = document.querySelector("input[type='file']") as HTMLInputElement;
+  fileInput?.click();
+};
+
+const handleFileInput = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    const filesArray = Array.from(target.files);
+
+    selectedFiles.value = await Promise.all(
+      filesArray.map(async (file) => {
+        const res = await uploadFile(file);
+        return {
+          url: res.url,
+          type: detectFileType(file),
+        };
+      })
+    );
+
+    await handleSendFile();
+  }
+};
+
+const detectFileType = (file: File) => {
+  const extension = file.name.split('.').pop()?.toLowerCase();
+  if (['png', 'jpg', 'jpeg'].includes(extension)) return 'image';
+  if (['docx', 'pdf', 'pptx'].includes(extension)) return 'document';
+  if (extension === 'mp3') return 'audio';
+  if (extension === 'mp4') return 'video';
+  return 'text'; // Default type if no extension matches
+};
+
+// Reactive state
+const selectedFiles = ref([]);
+
 </script>

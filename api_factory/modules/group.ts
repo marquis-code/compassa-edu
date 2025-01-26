@@ -9,6 +9,10 @@ export const group_api = {
     const url = '/groups';
     return GATEWAY_ENDPOINT.get(url);
   },
+  $_get_user_groups: () => {
+    const url = '/groups/my-groups';
+    return GATEWAY_ENDPOINT.get(url);
+  },
   $_get_group_by_id: (groupId: string) => {
     const url = `/groups/${groupId}`;
     return GATEWAY_ENDPOINT.get(url);

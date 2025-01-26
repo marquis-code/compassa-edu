@@ -91,6 +91,7 @@ instanceArray.forEach((instance) => {
       }
       if (err.response.status === 401) {
         console.log(err.response.data.error)
+        logOut()
         logOut();
         showToast({
           title: "Error",

@@ -1,5 +1,6 @@
 <template>
-     <div
+<!-- <main> -->
+  <div
           class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
         >
           <div class="mx-auto w-full max-w-sm lg:w-96">
@@ -243,7 +244,8 @@
             </div>
           </div>
         </div>
-        <CoreFullScreenLoader :visible="loading" />
+        <CoreFullScreenLoader class="z-50" text="Please wait while we  create your account." :visible="loading" />
+<!-- </main> -->
 </template>
 
 <script setup lang="ts">

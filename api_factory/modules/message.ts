@@ -2,7 +2,7 @@ import { GATEWAY_ENDPOINT } from "../axios.config";
 
 export const message_api = {
   $_create_message: (payload: any) => {
-    const url = "/messages/session";
+    const url = "/messages";
     return GATEWAY_ENDPOINT.post(url, payload);
   },
   $_get_group_messages: (groupId: string) => {
