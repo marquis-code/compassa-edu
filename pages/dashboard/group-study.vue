@@ -31,6 +31,7 @@
               >{{userGroupsList.length}}</span
             >
           </div>
+          <!-- {{ messagesList }} -->
           <div v-if="fetchingUserGroups" class="animate-pulse flex space-x-4 rounded-md p-4 w-full mx-auto">
             <div class="h-44 w-full bg-slate-200 rounded col-span-1"></div>
           </div>
@@ -70,7 +71,7 @@
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
           <div class="flex flex-col h-full overflow-x-auto mb-4">
             <div v-if="sendingMessage" class="text-gray-500">Sending...</div>
-            <ChatMessage v-if="messagesList" :creating="creating" :uploadingFile="uploadingFile" :messages="messagesList" />
+            <ChatMessage :allMessages="allMessages" v-if="messagesList" :creating="creating" :uploadingFile="uploadingFile" :messages="messagesList" />
             <!-- <CoreFullScreenLoader class="z-50" :text="`Fetching ${selectedGroup.name} messages`" :visible="fetchingGroupMessages" /> -->
           </div>
           <div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
@@ -78,6 +79,7 @@
               <input
                 type="text"
                 v-model="messageContent"
+               @keyup.enter="handleSendMessage"
                 placeholder="Type your message..."
                 class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
               />
@@ -136,15 +138,11 @@ import { useWebSocket } from "@/composables/modules/messages/socket";
 import { useUploadFile } from '@/composables/core/useFileUpload'
 import { io, Socket } from "socket.io-client";
 const { user }  = useUser()
-import { Picker } from "emoji-mart";
 
 const {
-  messages,
-  isConnected,
-  getGroupMessages,
   sendMessage,
-  joinGroup,
-  markMessagesAsRead,
+  allMessages,
+  // messages
 } = useWebSocket();
 const { userGroupsList, loading: fetchingUserGroups } = useGetUserGroups();
 const { uploadFile, loading: uploadingFile, uploadResponse } = useUploadFile()
@@ -160,6 +158,7 @@ const messageContent = ref(""); // Reactive property for message content
 const sendingMessage = ref(false); // Track sending status
 const selectedFile = ref<File | null>(null);
 const socket = ref<Socket | null>(null) as any;
+const selectedFiles = ref([]);
 
 const handleFetchGroupMessages = (item: any) => {
   selectedGroup.value = item;
@@ -177,38 +176,6 @@ definePageMeta({
   middleware: 'auth'
 });
 
-
-// Function to handle sending messages
-// const handleSendMessage = async () => {
-//   if (!messageContent.value.trim()) return; // Do nothing if message is empty
-
-//   const groupId = route.query.group;
-//   if (!groupId) {
-//     console.error("No group selected to send a message");
-//     return;
-//   }
-
-//   try {
-//     sendingMessage.value = true; // Set sending status
-
-//     setPayload({
-//       groupId,
-//       content: messageContent.value,
-//     });
-
-//     await createMessage();
-
-//     // Clear the input field after sending
-//     messageContent.value = "";
-
-//     // Fetch updated messages
-//     await fetchGroupMessages(groupId);
-//   } catch (error) {
-//     console.error("Failed to send message:", error);
-//   } finally {
-//     sendingMessage.value = false; // Reset sending status
-//   }
-// };
 
 const handleSendMessage = async () => {
   if (!messageContent.value.trim()) return;
@@ -230,6 +197,7 @@ const handleSendMessage = async () => {
 
   try {
     setPayload({ groupId, content: messageContent.value });
+    sendMessage(messageContent.value, groupId)
     await createMessage();
 
     // Update message status to 'sent'
@@ -247,88 +215,76 @@ const handleSendMessage = async () => {
 const showEmojiPicker = ref(false);
 
 
-  const updateUrlWithGroupId = (groupId: string) => {
-      console.log(`[updateUrlWithGroupId] Updating URL with group ID: ${groupId}`);
-      router.replace({ query: { ...route.query, group: groupId } });
-    };
 
-    onMounted(() => {
-      console.log('[onMounted] Component mounted.');
+const updateUrlWithGroupId = (groupId: string) => {
+  console.log(`[updateUrlWithGroupId] Updating URL with group ID: ${groupId}`);
+  router.replace({ query: { ...route.query, group: groupId } });
+};
 
-      if (user.value._id) {
-        console.log(`[onMounted] User ID found: ${user.value._id}`);
-      } else {
-        console.warn('[onMounted] No user ID found.');
-      }
+const initializeGroupAndMessages = () => {
+  console.log('[initializeGroupAndMessages] Initializing group and messages');
+  
+  // Check if there's already a group in the URL
+  const existingGroupId = route.query.group as string;
+  
+  if (existingGroupId) {
+    console.log(`[initializeGroupAndMessages] Found existing group ID in URL: ${existingGroupId}`);
+    // Verify if this group exists in userGroups
+    if (userGroupsList.value?.some(group => group._id === existingGroupId)) {
+      console.log(`[initializeGroupAndMessages] Existing group ID is valid, fetching messages`);
+      fetchGroupMessages(existingGroupId);
+    } else {
+      console.warn(`[initializeGroupAndMessages] Existing group ID not found in userGroups, falling back to first group`);
+      fallbackToFirstGroup();
+    }
+  } else {
+    console.log('[initializeGroupAndMessages] No group ID in URL, falling back to first group');
+    fallbackToFirstGroup();
+  }
+};
 
-      if (userGroupsList.value?.length > 0) {
-        const firstGroup = userGroupsList.value[0]._id;
-        console.log(`[onMounted] Found first group ID: ${firstGroup}`);
-        updateUrlWithGroupId(firstGroup);
-        fetchGroupMessages(firstGroup);
-      } else {
-        console.warn('[onMounted] No groups found in userGroupsList.');
-      }
-    });
+const fallbackToFirstGroup = () => {
+  if (userGroupsList.value?.length > 0) {
+    const firstGroup = userGroupsList.value[0]._id;
+    console.log(`[fallbackToFirstGroup] Using first group ID: ${firstGroup}`);
+    updateUrlWithGroupId(firstGroup);
+    fetchGroupMessages(firstGroup);
+  } else {
+    console.warn('[fallbackToFirstGroup] No groups available in userGroupsList');
+  }
+};
 
-    watch(
-      () => userGroupsList.value,
-      (newGroups) => {
-        console.log('[watch:userGroupsList] userGroupsList changed.');
+onMounted(() => {
+  console.log('[onMounted] Component mounted.');
 
-        if (newGroups?.length > 0) {
-          const firstGroup = newGroups[0]._id;
-          console.log(`[watch:userGroupsList] Found first group ID: ${firstGroup}`);
-          updateUrlWithGroupId(firstGroup);
-          fetchGroupMessages(firstGroup);
-        } else {
-          console.warn('[watch:userGroupsList] userGroupsList is empty.');
-        }
-      },
-      { immediate: true }
-    );
+  if (user.value._id) {
+    console.log(`[onMounted] User ID found: ${user.value._id}`);
+  } else {
+    console.warn('[onMounted] No user ID found.');
+  }
 
+  if (userGroupsList.value?.length > 0) {
+    initializeGroupAndMessages();
+  } else {
+    console.warn('[onMounted] No groups found in userGroupsList.');
+  }
+});
 
-//     const handleSendFile = async () => {
-//   if (!selectedFile.value) return;
+watch(
+  () => userGroupsList.value,
+  (newGroups) => {
+    console.log('[watch:userGroupsList] userGroupsList changed.');
 
-//   const groupId = route.query.group;
-//   if (!groupId) {
-//     console.error("No group selected to send a file");
-//     return;
-//   }
-
-//   try {
-//     const formData = new FormData();
-//     formData.append("file", selectedFile.value);
-//     formData.append("groupId", groupId as string);
-
-//     setPayload({ groupId, content: 'File', attachments: [selectedFile.value] });
-//     await createMessage();
-//     // Add custom logic to send formData to the backend (e.g., Axios or Fetch API)
-//     // await createMessage(); // Mocked function
-
-//     selectedFile.value = null;
-//   } catch (error) {
-//     console.error("Failed to send file:", error);
-//   }
-// };
+    if (newGroups?.length > 0) {
+      initializeGroupAndMessages();
+    } else {
+      console.warn('[watch:userGroupsList] userGroupsList is empty.');
+    }
+  },
+  { immediate: true }
+);
 
 
-//     const triggerFileInput = () => {
-//   const fileInput = document.querySelector("input[type='file']") as HTMLInputElement;
-//   fileInput?.click();
-// };
-
-// const handleFileInput = async (event: Event) => {
-//   const target = event.target as HTMLInputElement;
-//   if (target.files && target.files.length > 0) {
-//     // selectedFile.value = target.files[0];
-//     const res = await uploadFile(target.files[0])
-//     selectedFile.value = res.url
-//     await handleSendFile();
-//   }
-// };
 
 const handleSendFile = async () => {
   if (!selectedFiles.value.length) return;
@@ -402,6 +358,5 @@ const detectFileType = (file: File) => {
 };
 
 // Reactive state
-const selectedFiles = ref([]);
 
 </script>
