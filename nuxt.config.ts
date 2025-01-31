@@ -38,12 +38,12 @@ export default {
       enabled: true
     },
     meta: {
-      title: "Buildr",
+      title: "COMPSSAcademy",
       author: "Marquis",
       mobileAppIOS: false,
       mobileApp: true,
       description:
-        "specialize in software development, product design, and bespoke solutions to help businesses innovate and thrive in the digital age.",
+        "Simplify access to lecture notes, past questions, and collaborative tools. Foster teamwork, improve academic performance, and unlock your full potential with COMPSSA..",
       theme_color: "#27396B",
       background_color: "#27396B",
       display: "standalone",
