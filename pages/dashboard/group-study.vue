@@ -90,7 +90,7 @@
     <div class="flex flex-row h-full w-full overflow-x-hidden">
       <!-- Sidebar -->
       <div
-        class="fixed inset-y-0 left-0 transform lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col py-8 pl-6 pr-2 w-80 bg-grey-lighter flex-shrink-0"
+        class="fixed inset-y-0 left-0 transform lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col py-8 pl-6 pr-2 w-80 bg-white flex-shrink-0"
         :class="{ '-translate-x-full': !sidebarOpen }">
         <div class="flex flex-row items-center justify-between h-12 w-full">
           <div class="flex items-center">
@@ -172,7 +172,7 @@
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <span class="font-medium text-lg pr-3">{{ selectedGroup?.name ?? 'Select a Group' }}</span>
+            <span class="font-medium text-base lg:text-lg pr-3">{{ selectedGroup?.name ?? 'Select a Group' }}</span>
           </div>
           <div class="flex flex-col h-full overflow-x-auto">
             <div v-if="sendingMessage" class="text-gray-500">Sending...</div>

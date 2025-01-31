@@ -8,7 +8,7 @@
         <div class="absolute rounded-md">
          <img src="@/assets/icons/uploaded-materials.svg" class="h-12 w-12" />
         </div>
-        <p class="ml-16 truncate text-sm font-medium text-gray-500">Total Uploaded Materials</p>
+        <p class="ml-16 truncate text-sm font-medium text-gray-500">All Materials</p>
       </dt>
       <dd class="ml-16 flex items-baseline pb-6 sm:pb-7">
         <p class="text-2xl font-semibold text-gray-900"> {{ materialsList?.length ?? '0' }}</p>

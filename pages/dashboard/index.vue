@@ -1,5 +1,5 @@
 <template>
-    <main class="container mx-auto px-6 space-y-6">
+    <main class="container mx-auto lg:px-6 space-y-6">
   <HomeStats />
 
 <UploadOverviewTable />

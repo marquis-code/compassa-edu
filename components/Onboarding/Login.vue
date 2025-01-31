@@ -10,7 +10,7 @@
           <div>
             <label for="email" class="block text-sm/6 font-medium text-gray-900">Matric Number</label>
             <div class="mt-2">
-              <input  v-model="credential.matric.value" type="tel" name="matric" id="matric" autocomplete="matric" required class="block w-full rounded-md bg-white px-3 py-2.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              <input  v-model="credential.matric.value" type="tel" name="matric" id="matric" autocomplete="matric" required class="block w-full rounded-md bg-white px-3 py-3.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
             </div>
           </div>
     
@@ -27,7 +27,7 @@
                       name="password" 
                       autocomplete="current-password" 
                       required 
-                      class="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      class="block w-full rounded-md bg-white px-3 py-3.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     >
                     <div
                 @click="toggleShowPassword"

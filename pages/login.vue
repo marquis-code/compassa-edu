@@ -1,6 +1,6 @@
 <template>
   <main>
-    <OnboardingLogin />
+  <OnboardingLogin />
   </main>
     
     </template>
