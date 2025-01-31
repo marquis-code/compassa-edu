@@ -12,8 +12,9 @@ export const useGetUserGroups = () => {
       loading.value = true;
       try {
         const res = await group_api.$_get_user_groups();
-        console.log(res, 'user griups here')
+        // console.log(res, 'user griups here')
         userGroupsList.value = res.data;
+        return res.data
       } catch (error: any) {
         showToast({
           title: "Error",

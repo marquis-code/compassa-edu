@@ -12,6 +12,7 @@ export const useGetAllGroups = () => {
       loading.value = true;
       try {
         const res = await group_api.$_get_all_groups();
+        console.log(res, 'res here')
         groups.value = res.data;
       } catch (error: any) {
         showToast({

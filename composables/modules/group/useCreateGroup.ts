@@ -8,6 +8,7 @@ export const useCreateGroup = () => {
     const payload = ref({
       name: "",
       description: "",
+      status: ''
     });
     const loading = ref(false);
   
@@ -33,11 +34,12 @@ export const useCreateGroup = () => {
       }
     };
   
-    const setPayload = (data: any) => {
+    const setPayloadObj = (data: any) => {
       payload.value.name = data.name;
+      payload.value.status = data.status;
       payload.value.description = data.description;
     };
   
-    return { payload, loading, setPayload, createGroup };
+    return { payload, loading, setPayloadObj, createGroup };
   };
   

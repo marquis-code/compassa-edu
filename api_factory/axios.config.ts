@@ -90,12 +90,10 @@ instanceArray.forEach((instance) => {
         };
       }
       if (err.response.status === 401) {
-        console.log(err.response.data.error)
         logOut()
-        logOut();
         showToast({
           title: "Error",
-          message: err?.response?.data?.message || err?.response?.data?.error || "An error occured",
+          message:  Array.isArray(err?.response?.data?.message) ? err?.response?.data?.message?.join(" , ") : err?.response?.data?.message,
           toastType: "error",
           duration: 3000
         });
@@ -104,10 +102,11 @@ instanceArray.forEach((instance) => {
           ...err.response,
         };
       } else if (statusCodeStartsWith(err.response.status, 4)) {
+        console.log(err.response, 'error')
         if (err.response.data.message) {
           showToast({
             title: "Error",
-            message: err?.response?.data?.message || err?.response?.data?.error || "An error occured",
+            message: Array.isArray(err?.response?.data?.message) ? err?.response?.data?.message?.join(" , ") : err?.response?.data?.message,
             toastType: "error",
             duration: 3000
           });
@@ -119,7 +118,7 @@ instanceArray.forEach((instance) => {
       } else if (err.response.status === 500) {
         showToast({
           title: "Error",
-          message: err?.response?.data?.message || err?.response?.data?.error || "An error occured",
+          message:  Array.isArray(err?.response?.data?.message) ? err?.response?.data?.message?.join(" , ") : err?.response?.data?.message,
           toastType: "error",
           duration: 3000
         });
@@ -130,7 +129,7 @@ instanceArray.forEach((instance) => {
       } else if (err.response.status === 409) {
         showToast({
           title: "Error",
-          message: err?.response?.data?.message || err?.response?.data?.error || "An error occured",
+          message:  Array.isArray(err?.response?.data?.message) ? err?.response?.data?.message?.join(" , ") : err?.response?.data?.message,
           toastType: "error",
           duration: 3000
         });

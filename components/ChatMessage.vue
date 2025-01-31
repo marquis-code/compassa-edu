@@ -1,311 +1,10 @@
-<!-- <template>
-  <div class="flex flex-col space-y-4 p-4">
-    <template v-for="message in sortedMessages" :key="message._id">
-      <div
-        :class="[
-          'flex w-full',
-          isCurrentUser(message.sender._id) ? 'justify-end' : 'justify-start',
-        ]"
-      >
-        <div
-          :class="[
-            'max-w-[70%] rounded-lg p-3',
-            isCurrentUser(message.sender._id)
-              ? 'bg-blue-500 text-white rounded-br-none'
-              : 'bg-gray-200 text-gray-800 rounded-bl-none',
-          ]"
-        >
-          <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
-          <div v-if="message.attachments?.length" class="mt-4 space-y-4">
-            <div
-              v-for="(attachment, index) in message.attachments"
-              :key="index"
-              class="flex items-center space-x-4 p-3 bg-gray-50 shadow-sm rounded-lg"
-            >
-              <div
-                class="w-20 h-20 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden"
-              >
-                <div v-if="isImageFile(attachment)" class="w-full h-full">
-                  <img
-                    :src="attachment"
-                    class="w-full h-full object-cover"
-                    alt="Attachment"
-                    @error="handleImageError"
-                  />
-                </div>
-                <div
-                  v-else-if="isDocumentFile(attachment)"
-                  class="text-4xl text-gray-500"
-                >
-                  <img
-                    src="@/assets/icons/pdf.svg"
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <div v-else class="text-4xl text-gray-500">
-                  <img
-                    src="@/assets/icons/music.svg"
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              <div class="flex-1">
-                <a
-                  :href="attachment"
-                  target="_blank"
-                  class="text-base font-medium text-indigo-600 truncate block"
-                >
-                  <p class="text-sm text-gray-500">
-                    Click to preview or download
-                  </p>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="flex items-center justify-between text-xs mt-1"
-            :class="[
-              isCurrentUser(message.sender._id)
-                ? 'text-white text-opacity-70'
-                : 'text-gray-500',
-            ]"
-          >
-            <span>{{ formatDate(message.createdAt) }}</span>
-            <span v-if="isCurrentUser(message.sender._id)">
-              <svg
-                v-if="message.status === 'sending'"
-                class="w-4 h-4 text-gray-400 animate-pulse"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-              </svg>
-              <svg
-                v-else-if="message.status === 'sent'"
-                class="w-4 h-4 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
-              <svg
-                v-else-if="message.status === 'delivered'"
-                class="w-4 h-4 text-green-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-    </template>
-  </div>
-</template> -->
-
-<!-- <script setup lang="ts">
-const props = defineProps<{
-  messages: Message[],
-  uploadingFile: {
-    type: Boolean,
-    default: false
-  },
-  creating: {
-    type: Boolean,
-    default: false
-  }
-}>();
-
-const currentUserId = useState('currentUserId', () => {
-  return localStorage.getItem('user') 
-    ? JSON.parse(localStorage.getItem('user') || '{}')._id 
-    : null;
-});
-
-const sortedMessages = computed(() => {
-  return [...props.messages].sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
-});
-
-const isCurrentUser = (senderId: string): boolean => {
-  return senderId === currentUserId.value;
-};
-
-const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-};
-
-const isImageFile = (url: string): boolean => {
-  return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-};
-
-const isDocumentFile = (url: string): boolean => {
-  return /\.(pdf|doc|docx|xls|xlsx)$/i.test(url);
-};
-
-const getFileName = (url: string): string => {
-  return url.split('/').pop() || 'file';
-};
-</script>
-
-<style scoped>
-.loader {
-  border-color: transparent;
-  border-top-color: currentColor;
-  border-radius: 50%;
-}
-</style> -->
-
-<!-- <template>
-  <div class="flex flex-col space-y-4 p-4">
-    {{ allMessages }}
-    <div v-for="group in groupedMessages" :key="group.date" class="message-group">
-  <h3>{{ group.date }}</h3>
-  <div v-for="message in group.messages" :key="message.id" class="message">
-    <p>{{ message.content }}</p>
-  </div>
-</div>
-
-    <template v-for="(group, index) in groupedMessages" :key="index">
-      <div class="text-center text-sm text-gray-500 my-2">
-        {{ group.date }}
-      </div>
-      <template v-for="message in group.messages" :key="message._id">
-        <div :class="[
-          'flex w-full',
-          isCurrentUser(message.sender._id) ? 'justify-end' : 'justify-start'
-        ]">
-          <div :class="[
-            'max-w-[70%] rounded-lg p-3',
-            isCurrentUser(message.sender._id) 
-              ? 'bg-blue-500 text-white rounded-br-none' 
-              : 'bg-gray-200 text-gray-800 rounded-bl-none'
-          ]">
-            <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
-            <div v-if="message.attachments?.length" class="mt-4 space-y-4">
-              <div
-                v-for="(attachment, index) in message.attachments"
-                :key="index"
-                class="flex items-center space-x-4 p-3 bg-gray-50 shadow-sm rounded-lg"
-              >
-                <div class="w-20 h-20 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
-                  <div v-if="isImageFile(attachment)" class="w-full h-full">
-                    <img
-                      :src="attachment"
-                      class="w-full h-full object-cover"
-                      alt="Attachment"
-                      @error="handleImageError"
-                    />
-                  </div>
-                  <div v-else-if="isDocumentFile(attachment)" class="text-4xl text-gray-500">
-                    <img src="@/assets/icons/pdf.svg" class="w-full h-full object-cover" />
-                  </div>
-                  <div v-else class="text-4xl text-gray-500">
-                    <img src="@/assets/icons/music.svg" class="w-full h-full object-cover" />
-                  </div>
-                </div>
-                <div class="flex-1">
-                  <a
-                    :href="attachment"
-                    target="_blank"
-                    class="text-base font-medium text-indigo-600 truncate block"
-                  >
-                    <p class="text-sm text-gray-500">Click to preview or download</p>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="flex items-center justify-between text-xs mt-1" :class="[
-              isCurrentUser(message.sender._id) 
-                ? 'text-white text-opacity-70' 
-                : 'text-gray-500'
-            ]">
-              <span>{{ formatDate(message.createdAt) }}</span>
-              <span v-if="isCurrentUser(message.sender._id)">
-                <svg
-                  v-if="message.status === 'sending'"
-                  class="w-4 h-4 text-gray-400 animate-pulse"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-                </svg>
-                <svg
-                  v-else-if="message.status === 'sent'"
-                  class="w-4 h-4 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <svg
-                  v-else-if="message.status === 'delivered'"
-                  class="w-4 h-4 text-green-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <svg
-                  v-else-if="message.status === 'read'"
-                  class="w-4 h-4 text-blue-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </span>
-            </div>
-          </div>
-        </div>
-      </template>
-    </template>
-    <div v-if="uploadingFile" class="flex justify-center mt-4">
-      <div class="loader w-8 h-8 border-4 border-blue-500"></div>
-    </div>
-  </div>
-</template> -->
-
 <template>
-  <div id="chat-container" class="flex flex-col space-y-4 p-4 overflow-y-auto">
-    <!-- Loop through grouped messages -->
+  <!-- <div id="chat-container" class="flex flex-col space-y-4 p-4 overflow-y-auto h-full object-cover rounded-xl bg-[url('@/assets/img/theme.jpg')]">
     <div v-for="(group, index) in groupedMessages" :key="index">
       <div class="text-center text-sm text-gray-500 my-2">
         {{ group.date }}
       </div>
 
-      <!-- Loop through messages in the group -->
       <div
         v-for="message in group.messages"
         :key="message._id"
@@ -425,123 +124,152 @@ const getFileName = (url: string): string => {
         </div>
       </div>
     </div>
+  </div> -->
+
+  <div
+    id="chat-container"
+    style="background-color: #DAD3CC"
+    class="flex flex-col space-y-4 p-4 overflow-y-auto h-full object-cover rounded-xl"
+  >
+    <div class="flex justify-center mb-4">
+      <div class="rounded py-2 px-4" style="background-color: #fcf4cb">
+        <p class="text-xs">
+          Messages to this chat and calls are now secured with end-to-end
+          encryption. Tap for more info.
+        </p>
+      </div>
+    </div>
+    <!-- Loop through grouped messages -->
+    <div v-for="(group, index) in groupedMessages" :key="index">
+      <div
+        class="text-center text-sm text-gray-500 my-2 flex items-center justify-center"
+      >
+        <!-- {{ group.date }} -->
+        <div class="flex justify-center mb-2">
+          <div class="rounded py-2 px-4" style="background-color: #ddecf2">
+            <p class="text-sm font-semibold uppercase">
+              {{ group.date }}
+            </p>
+          </div>
+        </div>
+        <svg
+          v-if="group.isCurrentUser"
+          class="w-4 h-4 text-green-500 ml-1"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+
+      <!-- Loop through messages in the group -->
+      <!-- style="background-color: #F2F2F2" -->
+      <div
+        v-for="(message, messageIndex) in group.messages"
+        :key="message._id"
+        :class="[
+          'flex w-full',
+          isCurrentUser(message.sender._id) ? 'justify-end' : 'justify-start',
+          messageIndex === 0 ? 'mt-2' : 'mt-2', // Ensure consecutive messages are visually linked
+        ]"
+      >
+        <div
+          :class="[
+            'max-w-[70%] rounded-lg p-3',
+            isCurrentUser(message.sender._id)
+              ? 'bg-blue-500 text-white rounded-br-none'
+              : 'bg-[#F2F2F2] text-gray-800 rounded-bl-none',
+            messageIndex > 0 ? 'rounded-tl-none' : '', // Remove rounded corners for consecutive messages
+          ]"
+        >
+        <!-- {{message}} -->
+          <!-- <p class="text-sm text-grey-darkest" v-if="!isCurrentUser(message.sender._id)">Marquis</p> -->
+          <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
+
+          <!-- Attachments -->
+          <div v-if="message.attachments?.length" class="mt-4 space-y-4">
+            <div
+              v-for="(attachment, index) in message.attachments"
+              :key="index"
+              class="flex items-center space-x-4 p-3 bg-gray-50 shadow-sm rounded-lg"
+            >
+              <div
+                class="w-20 h-20 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden"
+              >
+                <img
+                  v-if="isImageFile(attachment)"
+                  :src="attachment"
+                  class="w-full h-full object-cover"
+                  alt="Attachment"
+                />
+                <img
+                  v-else-if="isDocumentFile(attachment)"
+                  src="@/assets/icons/pdf.svg"
+                  class="w-full h-full object-cover"
+                />
+                <img
+                  v-else
+                  src="@/assets/icons/music.svg"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="flex-1">
+                <a
+                  :href="attachment"
+                  target="_blank"
+                  class="text-base font-medium text-indigo-600 truncate block"
+                >
+                  <p class="text-sm text-gray-500">
+                    Click to preview or download
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timestamp and Status Icon -->
+          <div
+            class="flex items-center justify-between text-xs mt-1"
+            :class="[
+              isCurrentUser(message.sender._id)
+                ? 'text-white text-opacity-70'
+                : 'text-gray-500',
+            ]"
+          >
+          <!-- {{message}} -->
+            <span>{{ formatDate(message.createdAt) }}</span>
+            <span v-if="isCurrentUser(message.sender._id)">
+              <svg v-if="message.status === 'sending'"  xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9b9b9b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <svg  v-else-if="message.status === 'sent'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <svg
+                v-else-if="message.status === 'delivered'"
+                class="w-4 h-4 text-green-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-<!-- <script setup lang="ts">
-import moment from "moment";
-
-const props = defineProps<{
-  messages: Message[],
- allMessages: Message[],
-  uploadingFile: {
-    type: Boolean,
-    default: false
-  },
-  creating: {
-    type: Boolean,
-    default: false
-  }}>();
-
-const currentUserId = useState('currentUserId', () => {
-  return localStorage.getItem('user') 
-    ? JSON.parse(localStorage.getItem('user') || '{}')._id 
-    : null;
-});
-
-// const groupedMessages = computed(() => {
-//   const grouped: Record<string, Message[]> = {};
-//   props.messages.forEach((message) => {
-//     const date = moment(message.createdAt).format("LL");
-//     if (!grouped[date]) grouped[date] = [];
-//     grouped[date].push(message);
-//   });
-//   return Object.entries(grouped).map(([date, messages]) => ({
-//     date,
-//     messages: messages.sort(
-//       (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-//     ),
-//   }));
-// });
-
-// const groupedMessages = computed(() => {
-//   const grouped: Record<string, Message[]> = {};
-//   props.allMessages.forEach((message) => {
-//     const date = moment(message.createdAt).format("LL");
-//     if (!grouped[date]) grouped[date] = [];
-//     grouped[date].push(message);
-//   });
-//   return Object.entries(grouped).map(([date, messages]) => ({
-//     date,
-//     messages: messages.sort(
-//       (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-//     ),
-//   }));
-// });
-
-const groupedMessages = computed(() => {
-  const grouped: Record<string, Message[]> = {};
-  const today = moment().startOf("day");
-  const yesterday = moment().subtract(1, "day").startOf("day");
-
-  props.allMessages.forEach((message) => {
-    const messageDate = moment(message.createdAt);
-    
-    let dateLabel;
-    if (messageDate.isSame(today, "day")) {
-      dateLabel = "Today";
-    } else if (messageDate.isSame(yesterday, "day")) {
-      dateLabel = "Yesterday";
-    } else {
-      dateLabel = messageDate.format("MMMM D, YYYY"); // e.g., "January 26, 2025"
-    }
-
-    if (!grouped[dateLabel]) grouped[dateLabel] = [];
-    grouped[dateLabel].push(message);
-  });
-
-  return Object.entries(grouped).map(([date, messages]) => ({
-    date,
-    messages: messages.sort(
-      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    ),
-  }));
-});
-
-
-const isCurrentUser = (senderId: string): boolean => {
-  return senderId === currentUserId.value;
-};
-
-const formatDate = (dateString: string): string => {
-  return moment(dateString).format("h:mm A");
-};
-
-const isImageFile = (url: string): boolean => {
-  return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-};
-
-const isDocumentFile = (url: string): boolean => {
-  return /\.(pdf|doc|docx|xls|xlsx)$/i.test(url);
-};
-</script>
-
-<style scoped>
-.loader {
-  border-color: transparent;
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-</style> -->
 
 <script setup lang="ts">
 const props = defineProps<{
@@ -582,7 +310,6 @@ const getDateLabel = (dateString: string): string => {
     });
   }
 };
-
 
 const groupedMessages = computed(() => {
   const grouped: Record<string, Message[]> = {};

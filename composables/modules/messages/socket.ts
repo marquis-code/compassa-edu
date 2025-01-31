@@ -40,23 +40,18 @@ export const useWebSocket = () => {
         duration: 3000,
       });
       isConnected.value = true;
-
-      // Fetch user groups and join each group
-      try {
-        await fetchUserGroups();
-        console.log("User groups fetched:", userGroupsList.value);
-
-        userGroupsList.value.forEach((group) => {
+      await fetchUserGroups().then((data) => {
+        Array.isArray(data) && data.forEach((group: any) => {
           console.log(`Joining group ${group._id}`);
-          socket.value?.emit("joinGroup", group._id, (response) => {
+          socket.value?.emit("joinGroup", group._id, (response: any) => {
             console.log(`Join group response for group ${group._id}:`, response);
           });
         });
 
         allMessages.value = [...initialMessages.value];
-      } catch (error) {
+      }).catch((error: any) => {
         console.error("Error fetching user groups or joining groups:", error);
-      }
+      })
     });
 
     socket.value.on("disconnect", () => {
@@ -70,16 +65,16 @@ export const useWebSocket = () => {
       isConnected.value = false;
     });
 
-    socket.value.on("error", (error) => {
-      console.error("WebSocket error:", error);
-      showToast({
-        title: "Error",
-        message: `WebSocket error: ${error}`,
-        toastType: "error",
-        duration: 3000,
-      });
-      isConnected.value = false;
-    });
+    // socket.value.on("error", (error) => {
+    //   console.error("WebSocket error:", error);
+    //   showToast({
+    //     title: "Error",
+    //     message: `WebSocket error: ${error}`,
+    //     toastType: "error",
+    //     duration: 3000,
+    //   });
+    //   isConnected.value = false;
+    // });
 
     // Handle group update event
     socket.value.on("group.update", (data) => {
@@ -122,44 +117,6 @@ export const useWebSocket = () => {
       console.log(allMessages.value, "All messages here");
     });
     
-    // socket.value.on("message.new", (message: any) => {
-    //   console.log("Received new message:", message);
-    
-    //   // Transform the incoming message to match the standard pattern
-    //   const formattedMessage = {
-    //     _id: message.id, // Map 'id' to '_id'
-    //     group: message.groupId, // Map 'groupId' to 'group'
-    //     content: message.content, // Map 'content' to 'content'
-    //     sender: {
-    //       _id: message.senderId, // Map 'senderId' to 'sender._id'
-    //     },
-    //     attachments: [], // Default empty attachments
-    //     type: message.type, // Map 'type' to 'type'
-    //     readBy: [], // Default empty readBy
-    //     createdAt: message.timestamp, // Map 'timestamp' to 'createdAt'
-    //     updatedAt: message.timestamp, // Default updatedAt same as createdAt
-    //     __v: 0, // Default version
-    //   };
-    
-    //   // Check for duplicates and add the formatted message to the bottom
-    //   if (!allMessages.value.some((msg) => msg._id === formattedMessage._id)) {
-    //     allMessages.value = [...allMessages.value, formattedMessage];
-    //   }
-    
-    //   console.log(allMessages.value, "All messages here");
-    // });
-    
-    // socket.value.on("message.new", (message: any) => {
-    //   console.log("Received new message:", message);
-    //   if (message && !allMessages.value.some((msg) => msg.id === message.id)) {
-    //     allMessages.value = [...allMessages.value, {
-    //       ...message,
-    //       status: "received",
-    //     }];
-    //   }
-
-    //   console.log(allMessages.value, 'all messages here')
-    // });
 
     socket.value.on("joined-group", (message: any) => {
       console.log("Successfully joined group:", message);
@@ -171,8 +128,40 @@ export const useWebSocket = () => {
 
         // Listen for new messages broadcasted to the group
     socket.value.on("receive-message", (message) => {
-      console.log("Received new group message:", message);
-      allMessages.value = [...allMessages.value, message];
+      showToast({
+        title: "Receive notifications",
+        message: "You have a new message.",
+        toastType: "success",
+        duration: 3000,
+      });
+      const formattedMessage = {
+        _id: String(message.id), // Ensure ID is always a string
+        group: String(message.groupId), // Ensure group ID is a string
+        content: message.content,
+        sender: {
+          _id: String(message.senderId), // Ensure sender ID is a string
+        },
+        attachments: [],
+        type: message.type,
+        readBy: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        // createdAt: message.timestamp,
+        // updatedAt: message.timestamp,
+        __v: 0,
+      };
+    
+      // Strictly check the last three messages for duplicates using content
+      const lastMessages = allMessages.value.slice(-3); // Get the last 3 messages
+      const isDuplicate = lastMessages.some((msg) => msg.content === formattedMessage.content);
+    
+      if (!isDuplicate) {
+        allMessages.value = [...allMessages.value, formattedMessage]; // Add the new message
+      } else {
+        console.warn("Duplicate message detected based on content:", formattedMessage);
+      }
+      // console.log("Received new group message:", message);
+      // allMessages.value = [...allMessages.value, message];
     });
 
     // Handle messages update

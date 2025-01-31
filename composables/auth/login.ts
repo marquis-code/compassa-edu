@@ -37,6 +37,7 @@ export const use_auth_login = () => {
     try {
       const res = (await auth_api.$_login(payload)) as any;
       loading.value = false;
+      console.log(res, 'res here')
 
       if (res.type !== "ERROR") {
         useUser().createUser(res.data);

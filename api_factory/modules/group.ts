@@ -25,8 +25,12 @@ export const group_api = {
     let url = `/groups/${groupId}`;
     return GATEWAY_ENDPOINT.delete(url);
   },
-  $_join_group_by_user_id: (userId: any, groupId: any) => {
+  $_join_group_by_user_id: (groupId: any, userId: any) => {
     const url = `/groups/join-by-user/${groupId}/${userId}`;
+    return GATEWAY_ENDPOINT.post(url);
+  },
+  $_leave_group_by_user_id: (groupId: any, userId: any) => {
+    const url = `/groups/leave-group/${groupId}/${userId}`;
     return GATEWAY_ENDPOINT.post(url);
   },
   $_join_group_by_group_id: (groupId: any) => {

@@ -101,21 +101,7 @@
                         to="/dashboard/all-uploads"
                         class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                       >
-                        <svg
-                          class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          aria-hidden="true"
-                          data-slot="icon"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                          />
-                        </svg>
+                       <img src="@/assets/icons/study-materials.svg"  class="h-6 w-6" />
                         All Materials
                       </NuxtLink>
                     </li>
@@ -124,7 +110,7 @@
                         to="/dashboard/my-uploads"
                         class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                       >
-                        <svg
+                        <!-- <svg
                           class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -138,19 +124,60 @@
                             stroke-linejoin="round"
                             d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
                           />
-                        </svg>
+                        </svg> -->
+                        <img src="@/assets/icons/user-materials.svg"  class="h-6 w-6" />
                         My Materials
+                      </NuxtLink>
+                    </li>
+                    <li>
+                      <NuxtLink
+                        to="/dashboard/group-study"
+                        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                      >
+                        <!-- <svg
+                          class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                          data-slot="icon"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
+                          />
+                        </svg> -->
+                        <img src="@/assets/icons/group-study.svg"  class="h-6 w-6" />
+                        Group Study
                       </NuxtLink>
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <div class="text-xs/6 font-semibold text-gray-400">
-                    Groups Study
-                  </div>
                   <ul role="list" class="-mx-2 mt-2 space-y-1">
-                    <li>
-                      <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                    <li v-if="!fetchingUserGroups && userGroupsList?.length">
+              <div class="text-xs/6 font-semibold text-gray-400">
+                Active Study Groups ({{userGroupsList?.length}})
+              </div>
+              <ul role="list" class="-mx-2 mt-2 space-y-1">
+                <li v-for="(item, idx) in userGroupsList" :key="idx">
+                  <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                  <NuxtLink
+                    :to="`/dashboard/group-study?group=${item._id}`"
+                    class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                  >
+                    <span
+                      class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
+                      >{{ item?.name?.charAt(0)?.toUpperCase() ?? 'N' }}</span
+                    >
+                    <span class="truncate">{{item.name ?? 'Nil'}}</span>
+                  </NuxtLink>
+                </li>
+              </ul>
+            </li>
+                    <!-- <li>
                       <a
                         href="#"
                         class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
@@ -161,8 +188,8 @@
                         >
                         <span class="truncate">Heroicons</span>
                       </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                       <a
                         href="#"
                         class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
@@ -173,8 +200,8 @@
                         >
                         <span class="truncate">Tailwind Labs</span>
                       </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                       <a
                         href="#"
                         class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
@@ -185,7 +212,7 @@
                         >
                         <span class="truncate">Workcation</span>
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
                 </li>
                 <li class="mt-auto">
@@ -272,21 +299,7 @@
                     to="/dashboard/all-uploads"
                     class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                   >
-                    <svg
-                      class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                      data-slot="icon"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                      />
-                    </svg>
+                  <img src="@/assets/icons/study-materials.svg"  class="h-6 w-6" />
                     All Materials
                   </NuxtLink>
                 </li>
@@ -295,67 +308,39 @@
                     to="/dashboard/my-uploads"
                     class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                   >
-                    <svg
-                      class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                      data-slot="icon"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
-                      />
-                    </svg>
+                  <img src="@/assets/icons/user-materials.svg"  class="h-6 w-6" />
                     My Materials
                   </NuxtLink>
                 </li>
+                <li>
+                      <NuxtLink
+                        to="/dashboard/group-study"
+                        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                      >
+                      <img src="@/assets/icons/group-study.svg" class="h-6 w-6" />
+                        Group Study
+                      </NuxtLink>
+                    </li>
               </ul>
             </li>
-            <li>
+            
+            <li v-if="!fetchingUserGroups && userGroupsList?.length">
               <div class="text-xs/6 font-semibold text-gray-400">
-                Group study
+                Active Study Groups ({{userGroupsList?.length}})
               </div>
               <ul role="list" class="-mx-2 mt-2 space-y-1">
-                <li>
+                <li v-for="(item, idx) in userGroupsList" :key="idx">
                   <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                  <a
-                    href="#"
+                  <NuxtLink
+                    :to="`/dashboard/group-study?group=${item._id}`"
                     class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                   >
                     <span
                       class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
-                      >H</span
+                      >{{ item?.name?.charAt(0)?.toUpperCase() ?? 'N' }}</span
                     >
-                    <span class="truncate">Anatomy Group</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
-                  >
-                    <span
-                      class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
-                      >T</span
-                    >
-                    <span class="truncate">Physiology Group</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
-                  >
-                    <span
-                      class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600"
-                      >W</span
-                    >
-                    <span class="truncate">Biochemistry Group</span>
-                  </a>
+                    <span class="truncate">{{item.name ?? 'Nil'}}</span>
+                  </NuxtLink>
                 </li>
               </ul>
             </li>
@@ -524,10 +509,12 @@
 </template>
 
 <script setup lang="ts">
+import { useGetUserGroups } from '@/composables/modules/group/useGetUserGroups';
 import { useUser } from "@/composables/auth/user";
 import { logOut } from "@/composables/core/useLogout";
 const { user } = useUser();
 const isMobileOpen = ref(false)
+const { userGroupsList, loading: fetchingUserGroups } = useGetUserGroups();
 
 const searchQuery = ref('')
 
