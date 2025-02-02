@@ -32,7 +32,7 @@ export default {
   tailwindcss: {
     cssPath: "@/assets/css/main.css",
   },
-  modules: ['@kevinmarrec/nuxt-pwa',"@nuxtjs/tailwindcss"],
+  modules: ['@kevinmarrec/nuxt-pwa',"@nuxtjs/tailwindcss", "nuxt-emoji-picker"],
   pwa: {
     workbox: {
       enabled: true

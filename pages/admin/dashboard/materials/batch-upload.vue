@@ -841,6 +841,8 @@ async function handleFileSelect(event: Event) {
   const materialTypeArray = ref([
     { label: "Lecture Note", key: "lecture_note" },
     { label: "Textbook", key: "textbook" },
+    { label: "Personal notes", key: "personal_note" },
+    { label: "Drawings and diagrams", key: "drawings_and_diagrams" },
     { label: "Research Paper", key: "research_paper" },
     { label: "Assignment", key: "assignment" },
     { label: "Project Report", key: "project_report" },

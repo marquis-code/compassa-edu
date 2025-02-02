@@ -83,7 +83,7 @@ const groupedMaterials = ref(groupByDate(materials));
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl bg-white rounded-lg border-[0.5px] border-gray-100">
+  <div class="mx-auto hidden max-w-7xl bg-white rounded-lg border-[0.5px] border-gray-100">
     <h2 class="mx-auto max-w-2xl text-base font-semibold text-gray-900 lg:mx-0 pt-3 pl-6 lg:max-w-none">Recent Activity</h2>
     <div class="mt-6 overflow-hidden border-t border-gray-100">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

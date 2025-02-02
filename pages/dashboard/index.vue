@@ -2,7 +2,11 @@
     <main class="container mx-auto lg:px-6 space-y-6">
   <HomeStats />
 
-<UploadOverviewTable />
+  <!-- <CoreEmoji /> -->
+<!-- <h1>Signature pad</h1> -->
+  <!-- <CoreSignaturePad /> -->
+
+<!-- <UploadOverviewTable /> -->
 
 <!-- <CoreCommandPalate /> -->
 

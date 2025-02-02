@@ -458,6 +458,8 @@ const semesterArray = ref([
 
 const materialTypeArray = ref([
   { label: "Lecture Note", key: "lecture_note" },
+  { label: "Personal notes", key: "personal_note" },
+  { label: "Drawings and diagrams", key: "drawings_and_diagrams" },
   { label: "Textbook", key: "textbook" },
   { label: "Research Paper", key: "research_paper" },
   { label: "Assignment", key: "assignment" },

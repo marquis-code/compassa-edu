@@ -187,6 +187,8 @@ const materialTypeArray = ref([
   { label: "Lecture Notes", key: "notes" },
   { label: "Past Questions", key: "questions" },
   { label: "Assignments", key: "assignments" },
+  { label: "Personal notes", key: "personal_note" },
+  { label: "Drawings and diagrams", key: "drawings_and_diagrams" },
 ]);
 
 const statusArray = ref([
