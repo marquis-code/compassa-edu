@@ -128,12 +128,15 @@ export const useWebSocket = () => {
 
         // Listen for new messages broadcasted to the group
     socket.value.on("receive-message", (message) => {
-      showToast({
-        title: "Receive notifications",
-        message: "You have a new message.",
-        toastType: "success",
-        duration: 3000,
-      });
+      console.log(message, 'message recieved')
+      if(user.value.id === message.senderId){
+        showToast({
+          title: "Receive notifications",
+          message: "You have a new message.",
+          toastType: "success",
+          duration: 3000,
+        });
+      }
       const formattedMessage = {
         _id: String(message.id), // Ensure ID is always a string
         group: String(message.groupId), // Ensure group ID is a string

@@ -212,6 +212,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useUploadMaterial } from '@/composables/modules/materials/useUploadMaterial'
 import { useUser } from "@/composables/auth/user";
 import { useCreateMessage } from "@/composables/modules/messages/useCreateMessage";
 import { useGetUserGroups } from '@/composables/modules/group/useGetUserGroups';
@@ -222,11 +223,13 @@ import { useUploadFile } from '@/composables/core/useFileUpload'
 import { useCreateGroup } from '@/composables/modules/group/useCreateGroup'
 import { useJoinGroupByUserId } from '@/composables/modules/group/useJoinGroupByUserId'
 import { useLeaveGroup } from '@/composables/modules/group/useLeaveGroup'
+// import { useGetGroupMessages } from "@/composables/modules/messages/useGetGroupMessages";
 import { io, Socket } from "socket.io-client";
 const { user } = useUser()
 const { loading: processing, setPayloadObj, createGroup } = useCreateGroup()
 const { joinGroupByUserId, loading: joining } = useJoinGroupByUserId()
 const { leaveGroupByUserId, loading: leaving } = useLeaveGroup()
+const { uploadMaterial, uploading, setPayload:setCreateMaterialPayload } = useUploadMaterial()
 
 const {
   sendMessage,
@@ -593,30 +596,57 @@ const handleCloseUpload = () => {
 };
 
 const handleFileUpload = async (uploadData: {
-  file: File;
-  academicSession: string;
+  response: any;
+  academicLevel: string;
   semester: string;
+  session: string;
   materialType: string;
+  category: string
 }) => {
   try {
     // Upload the file
-    const fileUrl = await uploadFile(uploadData.file);
+    const filePayload = {
+        name: "Attachment",
+        description: "Chat Material Attachment",
+        fileUrls: uploadData.response.url,
+        academicLevel: uploadData.academicLevel,
+        semester: uploadData.semester,
+        materialType: uploadData.materialType,
+        session: uploadData.session,
+        category: uploadData.category,
+}
 
-    // Create message with file metadata
-    const messageData = {
+const messageData = {
       groupId: route.query.group,
       content: `Shared a ${uploadData.materialType}`,
-      type: 'File',
-      attachments: [fileUrl.url],
-      metadata: {
-        academicSession: uploadData.academicSession,
-        semester: uploadData.semester,
-        materialType: uploadData.materialType
-      }
+      type: 'document',
+      attachments: [uploadData.response.url],
     };
 
-    setPayload(messageData);
-    await createMessage();
+    // const fileUrl = await uploadFile(uploadData.file);
+    setCreateMaterialPayload(filePayload)
+    uploadMaterial().then(async () => {
+      setPayload(messageData);
+      await createMessage();
+      window.location.reload()
+      // await fetchGroupMessages(route.query.group);
+    })
+
+    // // Create message with file metadata
+    // const messageData = {
+    //   groupId: route.query.group,
+    //   content: `Shared a ${uploadData.materialType}`,
+    //   type: 'File',
+    //   attachments: [fileUrl.url],
+    //   metadata: {
+    //     academicSession: uploadData.academicSession,
+    //     semester: uploadData.semester,
+    //     materialType: uploadData.materialType
+    //   }
+    // };
+
+    // setPayload(messageData);
+    // await createMessage();
 
     // Close the upload modal
     handleCloseUpload();
