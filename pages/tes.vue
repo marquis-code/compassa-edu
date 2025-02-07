@@ -387,8 +387,15 @@
                     <div v-if="currentStep === 1">
                       <div class="space-y-6">
                         <div>
-                          <label class="block text-sm font-medium mb-2">Name</label>
+                          <label class="block text-sm font-medium mb-2">Material Name</label>
                           <input v-model="payload.name" type="text"
+                            class="w-full bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4 text-base"
+                            required>
+                        </div>
+
+                        <div>
+                          <label class="block text-sm font-medium mb-2">Lecturer</label>
+                          <input v-model="payload.lecturer" type="text"
                             class="w-full bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4 text-base"
                             required>
                         </div>
@@ -709,7 +716,8 @@ function closeMaterialModal() {
       // Text search filter
       const query = filters.value.search.toLowerCase().trim()
       const matchesSearch = !query ||
-        material.name?.toLowerCase().includes(query) ||
+        material.name?.toLowerCase().includes(query) || 
+        material.lecturer?.toLowerCase().includes(query) ||
         material.description?.toLowerCase().includes(query)
   
       // Dropdown filters
@@ -731,6 +739,7 @@ function closeMaterialModal() {
     filters.value = {
       search: '',
       session: '',
+      lecturer: '',
       semester: '',
       category: ''
     }
@@ -806,6 +815,7 @@ function closeMaterialModal() {
   const formData = ref({
     name: '',
     description: '',
+    lecturer: '',
     file: null as File | null,
   })
   
@@ -823,6 +833,7 @@ function closeMaterialModal() {
     search: '',
     session: '',
     semester: '',
+    lecturer: '',
     category: ''
   })
   
@@ -980,6 +991,7 @@ function closeMaterialModal() {
     formData.value = {
       name: '',
       description: '',
+      lecturer: '',
       file: null,
     }
   }

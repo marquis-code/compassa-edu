@@ -3,8 +3,9 @@
         <section class="w-full grid lg:grid-cols-2 gap-6 flex gap-x-6">
             <form class="space-y-3 rounded border-[0.5px] border-gray-100 p-3" @submit.prevent="handleSaveToPreview">
                 <section class="space-y-4">
-                <div>
-                <label class="block text-sm font-medium mb-1 text-gray-700">Name</label>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium mb-1 text-gray-700">Material Name</label>
                 <input
                     v-model="payload.name"
                     type="text"
@@ -12,6 +13,17 @@
                     required
                 />
                 </div>
+
+                <div>
+                <label class="block text-sm font-medium mb-1 text-gray-700">Lecturer Name</label>
+                <input 
+                    v-model="payload.lecturer"
+                    type="text"
+                    class="w-full bg-gray-50 border-[0.5px] border-gray-100 outline-none rounded-lg px-4 py-3.5 text-sm text-base"
+                    required
+                />
+                </div>
+          </div>
         
                 <div>
                 <label class="block text-sm font-medium mb-1 text-gray-700">Description</label>
@@ -265,6 +277,7 @@
                         <div>
                         <h3 class="font-medium text-gray-900">{{ item.name }}</h3>
                         <p class="text-sm text-gray-500 mt-1">{{ item.materialType }}</p>
+                        <p class="text-sm text-gray-500 mt-1">{{ item.lecturer }}</p>
                         <p class="text-sm text-gray-500">{{ item.academicLevel }} Level - {{ item.semester }} Semester</p>
                         </div>
                         <button 
@@ -382,12 +395,13 @@ import xlsx from "@/assets/icons/xlsx-file.svg";
 interface Material {
   name: string;
   description: string;
-  fileUrls: string[];
+  fileUrls: any[];
   academicLevel: string;
   semester: string;
   materialType: string;
   category: string;
   session: string;
+  lecturer: string;
   comment?: string;
 }
 
@@ -488,7 +502,8 @@ const handleSaveToPreview = () => {
     materialType: payload.value.materialType,
     category: payload.value.category,
     session: payload.value.session,
-    comment: payload.value.comment || ''
+    comment: payload.value.comment || '',
+    lecturer: payload.value.lecturer || ''
   };
   
   savedMaterials.value.push(currentMaterial);
@@ -504,7 +519,8 @@ const handleSaveToPreview = () => {
     session: '',
     category: '',
     fileUrls: [],
-    comment: ''
+    comment: '',
+    lecturer: ''
   };
 };
 

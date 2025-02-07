@@ -398,8 +398,15 @@
                   <div v-if="currentStep === 1">
                     <div class="space-y-6">
                       <div>
-                        <label class="block text-sm font-medium mb-2">Name</label>
+                        <label class="block text-sm font-medium mb-2">Material Name</label>
                         <input v-model="payload.name" type="text"
+                          class="w-full bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4 text-base"
+                          required>
+                      </div>
+
+                      <div>
+                        <label class="block text-sm font-medium mb-2">Lecturer Name</label>
+                        <input v-model="payload.lecturer" type="text"
                           class="w-full bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4 text-base"
                           required>
                       </div>

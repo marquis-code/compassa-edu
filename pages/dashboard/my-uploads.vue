@@ -134,7 +134,7 @@
                         <div v-for="(value, key) in filters" 
                             v-if="value"
                             :key="key"
-                            class="inline-flex items-center gap-1 px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full"
+                            class="inline-flex items-center gap-1 px-2 py-1 text-xs bg-gray-50 text-gray-700 rounded-full"
                         >
                         <span class="capitalize">{{ key }}: {{ value }}</span>
                         <button 
@@ -189,7 +189,7 @@
 
 
                         <button @click="resetFilters"
-                            class="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                            class="px-4 py-2 text-sm text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-200">
                             Reset Filters
                         </button>
                     </div> -->
@@ -348,24 +348,34 @@
                                     <!-- Step 1: Basic Information -->
                                     <div v-if="currentStep === 1">
                                         <div class="space-y-6">
+                                         <div class="grid lg:grid-cols-2 gap-6">
                                             <div>
-                                                <label class="block text-sm font-medium mb-2">Name</label>
+                                                <label class="block text-sm font-medium mb-2">Material Name</label>
                                                 <input v-model="payload.name" type="text"
-                                                    class="w-full bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4 text-base"
+                                                    class="w-full bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3 text-base"
                                                     required>
                                             </div>
 
                                             <div>
-                                                <label class="block text-sm font-medium mb-2">Description</label>
-                                                <textarea v-model="payload.description"
-                                                    class="w-full bg-gray-100 border border-gray-200 h-32 resize-none outline-none rounded-lg px-4 py-4 text-base"></textarea>
+                                                <label class="block text-sm font-medium mb-2">Lecturer Name</label>
+                                                <input v-model="payload.lecturer" type="text"
+                                                    class="w-full bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3 text-base"
+                                                    required>
                                             </div>
+                                         </div>
 
                                             <div>
+                                                <label class="block text-sm font-medium mb-2">Description</label>
+                                                <textarea v-model="payload.description"
+                                                    class="w-full bg-gray-50 border border-gray-200 h-32 resize-none outline-none rounded-lg px-4 py-3 text-base"></textarea>
+                                            </div>
+
+     <div class="grid lg:grid-cols-2 gap-6">
+        <div>
                                                 <label class="block text-sm font-medium mb-2">Session</label>
                                                 <!-- {{sessions}} -->
                                                 <select v-model="payload.session"
-                                                    class="w-full text-base bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4"
+                                                    class="w-full text-base bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3"
                                                     required>
                                                     <option value="">Select session</option>
                                                     <option v-for="item in sessions.data" :key="item.key"
@@ -378,7 +388,7 @@
                                             <div>
                                                 <label class="block text-sm font-medium mb-2">Category</label>
                                                 <select v-model="payload.category"
-                                                    class="w-full text-base bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4"
+                                                    class="w-full text-base bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3"
                                                     required>
                                                     <option value="">Select category</option>
                                                     <option v-for="item in categories?.data" :key="item.key"
@@ -387,6 +397,7 @@
                                                     </option>
                                                 </select>
                                             </div>
+     </div>
 
 
                                         </div>
@@ -398,7 +409,7 @@
                                             <div>
                                                 <label class="block text-sm font-medium mb-2">Academic Level</label>
                                                 <select v-model="payload.academicLevel"
-                                                    class="w-full text-base bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4"
+                                                    class="w-full text-base bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3"
                                                     required>
                                                     <option value="">Select academic level</option>
                                                     <option v-for="item in academicLevelArray" :key="item.key"
@@ -411,7 +422,7 @@
                                             <div>
                                                 <label class="block text-sm font-medium mb-2">Academic Semester</label>
                                                 <select v-model="payload.semester"
-                                                    class="w-full text-base bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4"
+                                                    class="w-full text-base bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3"
                                                     required>
                                                     <option value="">Select semester</option>
                                                     <option v-for="item in semesterArray" :key="item.key"
@@ -424,7 +435,7 @@
                                             <div>
                                                 <label class="block text-sm font-medium mb-2">Material Type</label>
                                                 <select v-model="payload.materialType"
-                                                    class="w-full text-base bg-gray-100 border border-gray-200 outline-none rounded-lg px-4 py-4"
+                                                    class="w-full text-base bg-gray-50 border border-gray-200 outline-none rounded-lg px-4 py-3"
                                                     required>
                                                     <option value="">Select material type</option>
                                                     <option v-for="item in materialTypeArray" :key="item.key"
@@ -481,15 +492,15 @@
                                     <!-- Navigation Buttons -->
                                     <div class="flex justify-between items-center w-full gap-4 pt-6">
                                         <button type="button" v-if="currentStep > 1" @click="currentStep--"
-                                            class="px-6 py-4 border border-gray-200 text-base w-full rounded-lg hover:bg-gray-50 font-medium">
+                                            class="px-6 py-3 border border-gray-200 text-base w-full rounded-lg hover:bg-gray-50 font-medium">
                                             Previous
                                         </button>
                                         <button type="button" v-if="currentStep === 1" @click="closeModal"
-                                            class="px-6 py-4 border border-gray-200 text-base w-full rounded-lg hover:bg-gray-50 font-medium">
+                                            class="px-6 py-3 border border-gray-200 text-base w-full rounded-lg hover:bg-gray-50 font-medium">
                                             Cancel
                                         </button>
                                         <button type="submit" :disabled="uploading"
-                                            class="px-6 w-full py-4 text-white text-base disabled:cursor-not-allowed disabled:opacity-25 bg-blue-600 rounded-lg hover:bg-blue-700 font-medium">
+                                            class="px-6 w-full py-3 text-white text-base disabled:cursor-not-allowed disabled:opacity-25 bg-blue-600 rounded-lg hover:bg-blue-700 font-medium">
                                             <span>{{ uploading ? 'uploading..' : '' }}</span>
                                             {{ currentStep === 3 ? 'Create' : 'Next' }}
                                         </button>
@@ -674,6 +685,7 @@ const filteredMaterials = computed(() => {
     const query = filters.value.search.toLowerCase().trim()
     const matchesSearch = !query || 
       material.name?.toLowerCase().includes(query) || 
+      material.lecturer?.toLowerCase().includes(query) || 
       material.description?.toLowerCase().includes(query)
 
     // Dropdown filters
@@ -696,6 +708,7 @@ const resetFilters = () => {
     search: '',
     session: '',
     semester: '',
+    lecturer: '',
     category: ''
   }
   isFilterVisible.value = false
@@ -770,6 +783,7 @@ const modalType = ref<'document' | 'project'>('document')
 const formData = ref({
     name: '',
     description: '',
+    lecturer: '',
     file: null as File | null,
 })
 
@@ -786,6 +800,7 @@ const activeFilters = ref(0)
 const filters = ref({
   search: '',
   session: '',
+  lecturer: '',
   semester: '',
   category: ''
 })
@@ -943,6 +958,7 @@ const closeModal = () => {
     isModalOpen.value = false
     formData.value = {
         name: '',
+        lecturer: '',
         description: '',
         file: null,
     }

@@ -2,8 +2,9 @@
   <main>
     <form class="space-y-4" @submit.prevent="handleStepSubmit">
       <section class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium mb-1 text-gray-700">Name</label>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div>
+        <label class="block text-sm font-medium mb-1 text-gray-700">Material Name</label>
         <input
           v-model="payload.name"
           type="text"
@@ -12,6 +13,17 @@
         />
       </div>
 
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-700">Lecturer Name</label>
+        <input
+          v-model="payload.lecturer"
+          type="text"
+          class="w-full bg-gray-50 border-[0.5px] border-gray-100 outline-none rounded-lg px-4 py-3.5 text-sm text-base"
+          required
+        />
+      </div>
+
+  </div>
       <div>
         <label class="block text-sm font-medium mb-1 text-gray-700">Description</label>
         <textarea

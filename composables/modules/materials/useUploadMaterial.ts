@@ -8,6 +8,7 @@ const payload = ref({
   academicLevel: "",
   semester: "",
   materialType: "",
+  lecturer: '',
   session: "",
   category: ""
 });
