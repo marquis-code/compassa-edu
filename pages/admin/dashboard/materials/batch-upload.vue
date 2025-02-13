@@ -891,6 +891,11 @@ async function handleFileSelect(event: Event) {
       });
   };
   
+  definePageMeta({
+  layout: 'admin',
+   middleware: 'admin'
+})
+
   const validateStep = (step: number) => {
     switch (step) {
       case 1:

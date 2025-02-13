@@ -32,7 +32,7 @@
       </div>
     </dl>
 
-    <AuditTrail />
+    <AuditTrail  />
   </main>
 </template>
 
@@ -40,9 +40,11 @@
 import { useGetUsers } from '@/composables/modules/users/useGetUsers'
 import { useGetPendingMaterials } from '@/composables/modules/materials/useGetPandingMaterials'
 import { useGetAllMaterials } from "@/composables/modules/materials/useGetAllMaterials";
+// import { useGetAudits } from '@/composables/modules/audit/useGetAudits'
 
 const { users, loading } = useGetUsers()
 const { materials: pendingMaterialsList, loading: laodingPendingMaterials } = useGetPendingMaterials()
+// const { auditsList, loading: fetchingAudits } = useGetAudits()
 const {
   materials,
   loading: loadingMaterials,
@@ -51,6 +53,7 @@ const {
 } = useGetAllMaterials();
 
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  middleware: 'admin'
 })
 </script>

@@ -357,6 +357,7 @@ const { user, getUserById, loading } = useGetUserById();
 const { materials, loading: loadingMaterials } = useGetAllMaterialsByUserId();
 definePageMeta({
   layout: "admin",
+   middleware: 'admin'
 });
 
 const showRejectModal = ref(false);

@@ -539,7 +539,8 @@ watch(isModalOpen, (newValue) => {
 })
 
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+   middleware: 'admin'
 })
 
 // Clean up

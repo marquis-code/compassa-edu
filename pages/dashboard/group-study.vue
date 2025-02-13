@@ -659,6 +659,10 @@ const messageData = {
   }
 };
 
+definePageMeta({
+  layout: 'user',
+  middleware: 'admin'
+})
 
 </script>
 

@@ -93,5 +93,6 @@ const { users, loading } = useGetUsers()
 
 definePageMeta({
   layout: 'admin',
+   middleware: 'admin'
 })
 </script>

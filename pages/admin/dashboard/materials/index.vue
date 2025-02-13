@@ -345,7 +345,8 @@ function closeRejectModal() {
 }
 
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+   middleware: 'admin'
 })
 
 function openBatchRejectModal() {
