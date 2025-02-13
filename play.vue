@@ -1,173 +1,173 @@
 <template>
-    <main class="grid grid-cols-12 gap-6">
-      <!-- Form Section -->
-      <div class="col-span-8">
-        <form class="space-y-4" @submit.prevent="handleSaveToPreview">
-          <!-- Existing form fields remain the same until the buttons section -->
-          
-          <!-- Previous form content remains unchanged -->
-          
-          <div class="flex justify-between items-center space-x-10 text-sm pt-8">
-            <button 
-              type="button"
-              @click="emit('close')"
-              class="px-6 py-3.5 text-sm border-[0.5px] border-gray-100 text-base w-full rounded-lg bg-gray-600 text-white font-medium"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit"
-              :disabled="uploading"
-              class="px-6 w-full py-3.5 text-sm text-white text-base disabled:cursor-not-allowed disabled:opacity-25 bg-blue-600 rounded-lg hover:bg-blue-700 font-medium"
-            >
-              <span>Save to Preview</span>
-            </button>
-          </div>
-        </form>
-      </div>
-  
-      <!-- Preview Section -->
-      <div class="col-span-4">
-        <div class="bg-white rounded-lg p-6 shadow-sm space-y-4">
-          <h2 class="text-lg font-semibold text-gray-900">Saved Materials Preview</h2>
-          
-          <!-- Preview Items -->
-          <div class="space-y-4 max-h-[600px] overflow-y-auto">
-            <div v-for="(item, index) in savedMaterials" :key="index" class="bg-gray-50 p-4 rounded-lg">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h3 class="font-medium text-gray-900">{{ item.name }}</h3>
-                  <p class="text-sm text-gray-500 mt-1">{{ item.materialType }}</p>
-                  <p class="text-sm text-gray-500">{{ item.academicLevel }} Level - {{ item.semester }} Semester</p>
-                </div>
-                <button 
-                  @click="removeSavedItem(index)"
-                  class="text-red-500 hover:text-red-700"
-                >
-                  <XMarkIcon class="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Submit All Button -->
-          <div v-if="savedMaterials.length > 0" class="pt-4">
-            <p class="text-sm text-gray-500 mb-2">{{ savedMaterials.length }} items ready to upload</p>
-            <button 
-              @click="handleSubmitAll"
-              :disabled="uploading"
-              class="w-full px-6 py-3.5 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <span>{{ uploading ? 'Uploading...' : 'Submit All Materials' }}</span>
-            </button>
-          </div>
+  <!-- Previous template code remains the same until the table section -->
+
+  <!-- Table Section with Pagination -->
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle">
+        <div class="overflow-hidden shadow ring-1 ring-black border-[0.5px] border-gray-100 ring-opacity-5 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <!-- Table header remains the same -->
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <tr v-for="item in paginatedCategories" :key="item.id" class="hover:bg-gray-50">
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                  {{ item?.name ?? 'Nil' }}
+                </td>
+                <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 md:table-cell">
+                  {{ item?.description ?? 'Nil' }}
+                </td>
+                <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
+                  {{ formatDate(item?.createdAt) }}
+                </td>
+                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <div class="relative inline-block text-left">
+                    <button @click="toggleDropdown(item.id)" class="p-1 rounded-full hover:bg-gray-100">
+                      <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                      </svg>
+                    </button>
+                    <div v-if="dropdowns[item.id]" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                      <div class="py-1">
+                        <button @click="openModal('preview', item)" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+                          Preview
+                        </button>
+                        <button @click="openModal('edit', item)" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+                          Edit
+                        </button>
+                        <button @click="openModal('delete', item)" class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="mt-4 flex items-center justify-between">
+      <div class="flex items-center">
+        <span class="text-sm text-gray-700">
+          Showing {{ startIndex + 1 }} to {{ Math.min(endIndex, totalItems) }} of {{ totalItems }} entries
+        </span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button
+          @click="currentPage--"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span class="text-sm text-gray-700">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button
+          @click="currentPage++"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rest of the template remains the same -->
+</template>
+
+<script setup lang="ts">
+// Previous imports remain the same
+
+// Pagination state
+const currentPage = ref(1)
+const itemsPerPage = ref(10)
+
+// Replace single activeDropdown with dropdowns object
+const dropdowns = ref<{ [key: string]: boolean }>({})
+
+// Pagination computed properties
+const totalItems = computed(() => categories.value?.length ?? 0)
+const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage.value))
+const startIndex = computed(() => (currentPage.value - 1) * itemsPerPage.value)
+const endIndex = computed(() => startIndex.value + itemsPerPage.value)
+
+const paginatedCategories = computed(() => {
+  if (!categories.value) return []
+  return categories.value.slice(startIndex.value, endIndex.value)
+})
+
+// Modified toggleDropdown function to handle individual dropdowns
+const toggleDropdown = (id: string) => {
+  dropdowns.value = {
+    ...dropdowns.value,
+    [id]: !dropdowns.value[id]
+  }
+}
+
+// Modified openModal function
+const openModal = (mode: typeof modalMode.value, item: any = null) => {
+  modalMode.value = mode
+  selectedItem.value = item
+  error.value = null
   
-      <CoreFullScreenLoader :visible="uploadingFile" class="z-50" text="Please wait while we upload your file..." />
-      <CoreFullScreenLoader :visible="uploading" class="z-50" text="Please wait while we save your files..." />
-    </main>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref, onMounted } from "vue";
-  import { XMarkIcon } from "@heroicons/vue/24/outline";
-  // ... (keep existing imports)
-  
-  // Add new refs for saved materials
-  const savedMaterials = ref<any[]>([]);
-  const STORAGE_KEY = 'saved_materials';
-  
-  // Load saved materials from localStorage on mount
-  onMounted(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      savedMaterials.value = JSON.parse(saved);
+  if (mode === 'edit' && item) {
+    formData.value = {
+      name: item.name,
+      description: item.description
     }
-  });
-  
-  // Function to save current form data to preview
-  const handleSaveToPreview = () => {
-    const currentMaterial = {
-      ...payload.value,
-      timestamp: new Date().toISOString()
-    };
-    
-    savedMaterials.value.push(currentMaterial);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(savedMaterials.value));
-    
-    // Reset form
-    payload.value = {
+  } else if (mode === 'create') {
+    formData.value = {
       name: '',
-      description: '',
-      academicLevel: '',
-      semester: '',
-      materialType: '',
-      session: '',
-      category: '',
-      fileUrls: []
-    };
-  };
-  
-  // Function to remove item from preview
-  const removeSavedItem = (index: number) => {
-    savedMaterials.value.splice(index, 1);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(savedMaterials.value));
-  };
-  
-  // Function to submit all saved materials
-  const handleSubmitAll = async () => {
-    try {
-      // Set the batch payload with all saved materials
-      setBatchPayload(savedMaterials.value);
-      
-      // Call the upload materials endpoint
-      await uploadMaterials();
-      
-      // Clear saved materials after successful upload
-      savedMaterials.value = [];
-      localStorage.removeItem(STORAGE_KEY);
-      
-      // Close the modal
-      emit('close');
-    } catch (error) {
-      console.error('Error uploading materials:', error);
-      // Handle error appropriately
-    }
-  };
-  
-  // Modified file upload handler to work with preview system
-  async function handleFileSelect(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target && target.files && target.files.length > 0) {
-      try {
-        const files = Array.from(target.files);
-        uploadingFile.value = true;
-  
-        const uploadedUrls = await Promise.all(
-          files.map(async (file) => {
-            try {
-              const response = await uploadFile(file);
-              return response.url;
-            } catch (error) {
-              console.error(`Error uploading file ${file.name}:`, error);
-              return null;
-            }
-          })
-        );
-  
-        const validUrls = uploadedUrls.filter((url): url is string => url !== null);
-  
-        if (validUrls.length > 0) {
-          payload.value.fileUrls = validUrls;
-        }
-  
-        uploadResponse.value = validUrls.map((url) => ({ url }));
-      } catch (error) {
-        console.error('Error uploading files:', error);
-      } finally {
-        uploadingFile.value = false;
-      }
+      description: ''
     }
   }
-  </script>
+  
+  isModalOpen.value = true
+  // Clear all dropdowns when opening modal
+  dropdowns.value = {}
+}
+
+// Modified handleClickOutside
+const handleClickOutside = (event: MouseEvent) => {
+  if (Object.values(dropdowns.value).some(v => v) && !(event.target as Element).closest('.relative')) {
+    dropdowns.value = {}
+  }
+}
+
+// Modified handleSubmit to fix processing state
+const handleSubmit = async () => {
+  try {
+    if (!validateForm()) return
+
+    const isCreating = modalMode.value === 'create'
+    const processingState = isCreating ? creating : updating
+
+    if (!processingState) {
+      if (isCreating) {
+        setPayload(formData.value)
+        await createCategory()
+      } else if (modalMode.value === 'edit' && selectedItem.value) {
+        await updateCategory({
+          id: selectedItem.value.id,
+          ...formData.value
+        })
+      }
+      
+      await getCategories()
+      closeModal()
+    }
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'An error occurred'
+  }
+}
+
+// Reset page when data changes
+watch(categories, () => {
+  currentPage.value = 1
+})
+
+// Rest of the script remains the same
+</script>

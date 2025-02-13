@@ -12,7 +12,7 @@ export const useGetCategories = () => {
     loading.value = true;
     try {
       const res = await category_api.$_get_scategories() as any
-      categories.value = res.data;
+      categories.value = res?.data?.data || [];
       showToast({
         title: "Success",
         message: "Categories fetched successfully.",

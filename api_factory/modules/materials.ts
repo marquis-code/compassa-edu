@@ -51,7 +51,6 @@ export const material_api = {
 
     return GATEWAY_ENDPOINT.get(url);
 },
-
   $_get_approved_materials: (academicLevel = '', semester = '', materialType = '', status = '') => {
     let url = "/users/approved-materials";
     if (academicLevel) {

@@ -114,7 +114,7 @@
                 >
                     <option value="">Select category</option>
                     <option
-                    v-for="item in categories.data"
+                    v-for="item in categories"
                     :key="item.key"
                     :value="item._id"
                     >
