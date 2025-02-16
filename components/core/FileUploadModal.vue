@@ -53,7 +53,7 @@
                     <select v-model="formData.category"
                     class="mt-1 block w-full rounded-md border-[0.5px] py-3.5 text-sm pl-4 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                       <option value="">Select Category</option>
-                      <option v-for="category in categories?.data" :key="category._id" :value="category._id">
+                      <option v-for="category in categories" :key="category._id" :value="category._id">
                         {{ category.name }}
                       </option>
                     </select>
