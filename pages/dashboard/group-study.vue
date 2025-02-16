@@ -45,7 +45,7 @@
           <div class="flex flex-row items-center justify-between text-xs">
             <div class="flex items-center gap-x-3">
               <span class="font-semibold text-base">Active Groups</span>
-              <button type="button" @click="handleAddGroup">
+              <button type="button" @click="addGroupModalOpen = true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24" fill="none"
                   stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
@@ -57,17 +57,22 @@
             <span class="flex items-center justify-center font-semibold bg-gray-300 h-6 w-6 rounded-full">{{
               userGroupsList.length }}</span>
           </div>
-          <div class="flex flex-col space-y-3 mt-4 -mx-2 overflow-y-auto">
+          <div class="flex flex-col space-y-3 mt-4 -mx-2 overflow-y-auto max-h-[500px] h-full">
             <button v-for="(item, idx) in filteredGroups" :key="idx"
               :class="{ 'bg-[#DDECF2]': item._id === route.query.group }"
-              class="flex flex-row items-center py-3 rounded-md pl-3 mr-3 hover:bg-gray-100"
+              class="flex flex-row items-center py-3 relative rounded-md pl-3 mr-3 hover:bg-gray-100"
               @click="handleSelectGroup(item)">
               <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
                 {{ item?.name?.charAt(0)?.toUpperCase() ?? 'N' }}
               </div>
               <div class="ml-2 text-sm text-start font-semibold">
-                {{ item?.name ?? 'Nil' }}
+                {{ item?.name ?? 'Nil' }} <span class="font-bold text-gray-900">({{ item?.members?.length }})</span>
               </div>
+              <!-- {{ item.status }} -->
+             <div class="flex justify-end items-end absolute right-3">
+              <svg v-if="item.status === 'private'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <!-- <svg v-if="item.status === 'private'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> -->
+             </div>
             </button>
           </div>
         </div>
@@ -87,6 +92,8 @@
             </button>
             <span class="font-medium text-base lg:text-lg pr-3">{{ selectedGroup?.name ?? 'Select a Group' }}</span>
           </div>
+          <!-- {{ allMessages }} -->
+          <!-- {{ messagesList }} -->
           <div class="flex flex-col h-full overflow-x-auto">
             <div v-if="sendingMessage" class="text-gray-500">Sending...</div>
             <ChatMessage :allMessages="allMessages" v-if="messagesList" :creating="creating"
@@ -142,7 +149,7 @@
   <CoreFullScreenLoader :visible="fetchingGroupMessages" class="z-50"
     text="Please wait while we fetch group messages" />
   <AddGroupModal v-if="addGroupModalOpen" :processing="processing" @close="toggleAddGroupModal"
-    @submit="handleAddGroup" />
+    />
   <FilterModal v-if="allFilterModalOpen" :groups="allGroups" @close="toggleAllFilterModal" @joinGroup="joinGroup"
     @leaveGroup="leaveGroup" />
 
@@ -660,8 +667,7 @@ const messageData = {
 };
 
 definePageMeta({
-  layout: 'user',
-  middleware: 'admin'
+  middleware: 'auth'
 })
 
 </script>

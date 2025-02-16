@@ -37,4 +37,16 @@ export const group_api = {
     const url = `/groups/join/${groupId}`;
     return GATEWAY_ENDPOINT.post(url);
   },
+  $_join_group_by_invite: (inviteToken: any) => {
+    const url = `/groups/join-by-invite/${inviteToken}`;
+    return GATEWAY_ENDPOINT.post(url);
+  },
+  $_generate_invite: (groupId: any) => {
+    const url = `/groups/generate-invite/${groupId}`;
+    return GATEWAY_ENDPOINT.post(url);
+  },
+  $_create_group_with_members: (payload: any) => {
+    const url = "/groups/create-with-members";
+    return GATEWAY_ENDPOINT.post(url, payload);
+  },
 };

@@ -1086,7 +1086,7 @@ const validateStep = (step: number) => {
 
 definePageMeta({
   layout: 'user',
-  middleware: 'admin'
+  middleware: 'auth'
 })
 
 </script>

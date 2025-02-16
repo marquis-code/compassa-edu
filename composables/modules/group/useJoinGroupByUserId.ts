@@ -8,7 +8,7 @@ export const useJoinGroupByUserId = () => {
   
     const joinGroupByUserId = async (groupId: any, userId: any) => {
       loading.value = true;
-      const res = await group_api.$_join_group_by_user_id(groupId, userId);
+      const res = await group_api.$_join_group_by_group_id(groupId);
       console.log(res, 'res jhere')
       if(res.status == 200 || res.status === 201){
        showToast({
